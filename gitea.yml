@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  gitea:
+    container_name: gitea
+    image: gitea/gitea:1.21.7
+    restart: always
+    networks:
+      - gitea
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.gitea.rule: Host(`gitea.skill17.local`)
+      traefik.http.routers.gitea.entrypoints: websecure
+      traefik.http.routers.gitea.tls: true
+      traefik.http.services.gitea.loadbalancer.server.port: 3000
+    volumes:
+      - ./data/gitea:/data/gitea
+      - ./config/gitea:/data/gitea/conf/
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:2222"
+    depends_on:
+       - db
+  db:
+    image: mysql:8
+    restart: always
+    networks:
+      - gitea
+    environment:
+       - MYSQL_ROOT_PASSWORD=gitea
+       - MYSQL_USER=gitea
+       - MYSQL_PASSWORD=gitea
+       - MYSQL_DATABASE=gitea
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+networks:
+  gitea:
+    name: gitea
+    driver: bridge
