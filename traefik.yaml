@@ -1,3 +1,7 @@
+networks:
+  gitea:
+    external: true
+
 services:
   traefik:
     image: traefik:v2.11.0
@@ -8,15 +12,14 @@ services:
       - default
     command:
       - '--log.level=DEBUG'
-      - '--api.insecure=true'
+      # - '--api.insecure=true'
       - '--providers.file.directory=/etc/traefik/dynamic'
       - '--providers.docker=true'
       - '--providers.docker.exposedbydefault=false'
       - '--entrypoints.web.address=:80'
-      - '--entrypoints.websecure.address=:443'
-#      - '--providers.docker.defaultRule=HostRegexp(`{_:{{ index .Labels \"com.docker.compose.service\" }}\\..*}`)'
-      - '--providers.docker.defaultRule=HostRegexp(`{host:.+}`)'
-      - '--serversTransport.insecureSkipVerify=true'
+      - "--entrypoints.websecure.address=:443"
+      - "--providers.docker.defaultRule=HostRegexp(`{_:{{ index .Labels \"com.docker.compose.service\" }}\\..*}`)"
+      - "--serversTransport.insecureSkipVerify=true"
     ports:
       - '80:80'
       - '443:443'
@@ -26,11 +29,11 @@ services:
       - './config/traefik/config.yaml:/etc/traefik/dynamic/traefik.yaml'
       - './config/traefik/certs:/etc/certs/'
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.skill17.com`)"
-      - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.tls=true"
-      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      traefik.enable: 'true'
+      traefik.http.routers.traefik.rule: HostRegexp(`{_:traefik\..*}`)
+      traefik.http.routers.traefik.entrypoints: websecure
+      traefik.http.routers.traefik.tls: true
+      traefik.http.services.traefik.loadbalancer.server.port: 8080
 
 networks:
   gitea:
