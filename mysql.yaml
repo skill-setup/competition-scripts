@@ -1,0 +1,16 @@
+services:
+  competitor_db:
+    image: mysql:8
+    restart: always
+    environment:
+       - MYSQL_ROOT_PASSWORD=es2025
+    volumes:
+      - ./data/mysql-competition:/var/lib/mysql
+      - "./config/mysql/competitors.sql:/docker-entrypoint-initdb.d/1.sql"
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.competitor-db.rule: HostRegexp(`{_:db\..*}`)
+      traefik.http.services.competitor-db.loadbalancer.server.port: 3306
+    ports:
+      - '3306:3306'
+  

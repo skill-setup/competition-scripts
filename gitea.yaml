@@ -37,9 +37,8 @@ services:
       - MYSQL_PASSWORD=gitea
       - MYSQL_DATABASE=gitea
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./data/mysql-gitea:/var/lib/mysql
 
 networks:
   gitea:
-    name: gitea
-    driver: bridge
+    external: true

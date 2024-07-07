@@ -1,4 +1,5 @@
 #!/bin/bash
+docker compose -f traefik.yaml up -d
 
 docker compose -f gitea.yaml up -d
 
