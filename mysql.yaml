@@ -15,7 +15,6 @@ services:
       traefik.http.services.competitor-db.loadbalancer.server.port: 3306
     ports:
       - '3306:3306'
-  
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     networks:
