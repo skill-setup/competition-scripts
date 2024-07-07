@@ -14,3 +14,16 @@ services:
     ports:
       - '3306:3306'
   
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: 'competitor_db'
+      PMA_PORT: 3306
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.pma.rule: HostRegexp(`{_:pma\..*}`)
+      traefik.http.services.pma.loadbalancer.server.port: 80
+      traefik.http.routers.pma.tls: true
+      traefik.http.routers.pma.entrypoints: websecure
