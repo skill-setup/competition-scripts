@@ -5,3 +5,4 @@ docker exec gitea su -c '/app/gitea/gitea admin user create --username competito
 
 # should i create the ssh key as well?
 
+# create databases for users
