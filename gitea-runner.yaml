@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  runner1: &runner
+    image: gitea/act_runner:latest
+    networks:
+      - gitea
+    environment: &runner_env
+      CONFIG_FILE: /config.yaml
+      GITEA_INSTANCE_URL: "http://gitea:3000"
+      GITEA_RUNNER_REGISTRATION_TOKEN: "${REGISTRATION_TOKEN}"
+      GITEA_RUNNER_NAME: "Runner 1"
+    volumes:
+      - ./config/gitea-runner/config.yaml:/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/runner1:/data
+
+networks:
+  gitea:
+    external: true
