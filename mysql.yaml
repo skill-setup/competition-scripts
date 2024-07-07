@@ -15,12 +15,13 @@ services:
       traefik.http.services.competitor-db.loadbalancer.server.port: 3306
     ports:
       - '3306:3306'
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     networks:
       - default
     depends_on:
-      - db
+      - competitor_db
     environment:
       PMA_HOST: 'competitor_db'
       PMA_PORT: 3306
