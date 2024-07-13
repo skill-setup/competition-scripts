@@ -5,7 +5,7 @@ services:
     networks:
       - default
     environment:
-       - MYSQL_ROOT_PASSWORD=es2025
+       - MYSQL_ROOT_PASSWORD=ES2025mysql
     volumes:
       - ./data/mysql-competition:/var/lib/mysql
       - "./config/mysql/competitors.sql:/docker-entrypoint-initdb.d/1.sql"

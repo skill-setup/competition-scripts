@@ -14,6 +14,51 @@ services:
       - ./config/gitea-runner/config.yaml:/config.yaml
       - /var/run/docker.sock:/var/run/docker.sock
       - ./data/runner1:/data
+  runner2:
+    <<: *runner
+    environment:
+      <<: *runner_env
+      GITEA_RUNNER_NAME: "Runner 2"
+    volumes:
+      - ./config/gitea-runner/config.yaml:/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/runner2:/data
+  runner3:
+    <<: *runner
+    environment:
+      <<: *runner_env
+      GITEA_RUNNER_NAME: "Runner 3"
+    volumes:
+      - ./config/gitea-runner/config.yaml:/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/runner3:/data
+  runner4:
+    <<: *runner
+    environment:
+      <<: *runner_env
+      GITEA_RUNNER_NAME: "Runner 4"
+    volumes:
+      - ./config/gitea-runner/config.yaml:/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/runner4:/data
+  runner5:
+    <<: *runner
+    environment:
+      <<: *runner_env
+      GITEA_RUNNER_NAME: "Runner 5"
+    volumes:
+      - ./config/gitea-runner/config.yaml:/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/runner5:/data
+  runner6:
+    <<: *runner
+    environment:
+      <<: *runner_env
+      GITEA_RUNNER_NAME: "Runner 6"
+    volumes:
+      - ./config/gitea-runner/config.yaml:/config.yaml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/runner6:/data
 
 networks:
   gitea:

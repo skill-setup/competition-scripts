@@ -1,0 +1,19 @@
+services:
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    network_mode: host
+    environment:
+      - DOCKER_TLS_VERIFY=0
+      - SSL_CERT_FILE=/etc/ssl/cert.pem
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/watchtower/config.json:/config.json
+      - ./config/traefik/certs/ca-cert.crt:/etc/ssl/cert.pem
+    command: --interval 10 --include-stopped --revive-stopped comp.*
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.watchtower.rule: HostRegexp(`{_:watchtower\..*}`)
+      traefik.http.services.watchtower.loadbalancer.server.port: 8080
+

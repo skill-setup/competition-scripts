@@ -1,29 +1,84 @@
-CREATE DATABASE IF NOT EXISTS `competitor-1`;
-CREATE DATABASE IF NOT EXISTS `competitor-2`;
-CREATE DATABASE IF NOT EXISTS `competitor-3`;
-CREATE DATABASE IF NOT EXISTS `competitor-4`;
-CREATE DATABASE IF NOT EXISTS `competitor-5`;
-CREATE DATABASE IF NOT EXISTS `competitor-6`;
-CREATE DATABASE IF NOT EXISTS `competitor-7`;
-CREATE DATABASE IF NOT EXISTS `competitor-8`;
-CREATE DATABASE IF NOT EXISTS `competitor-9`;
 
-CREATE USER IF NOT EXISTS `competitor-1`@'%' IDENTIFIED BY '4621';
-CREATE USER IF NOT EXISTS `competitor-2`@'%' IDENTIFIED BY '7552';
-CREATE USER IF NOT EXISTS `competitor-3`@'%' IDENTIFIED BY '6513';
-CREATE USER IF NOT EXISTS `competitor-4`@'%' IDENTIFIED BY '2494';
-CREATE USER IF NOT EXISTS `competitor-5`@'%' IDENTIFIED BY '6455';
-CREATE USER IF NOT EXISTS `competitor-6`@'%' IDENTIFIED BY '9546';
-CREATE USER IF NOT EXISTS `competitor-7`@'%' IDENTIFIED BY '9999';
-CREATE USER IF NOT EXISTS `competitor-8`@'%' IDENTIFIED BY '6825';
-CREATE USER IF NOT EXISTS `competitor-9`@'%' IDENTIFIED BY '9863';
+CREATE DATABASE IF NOT EXISTS `comp01be`;
+CREATE USER IF NOT EXISTS `competitor01`@'%' IDENTIFIED BY 'DStsjvR8u2rG';
+GRANT ALL PRIVILEGES ON `comp01be`.* TO 'competitor01'@'%';
 
-GRANT ALL PRIVILEGES ON `competitor-1`.* TO 'competitor-1'@'%';
-GRANT ALL PRIVILEGES ON `competitor-2`.* TO 'competitor-2'@'%';
-GRANT ALL PRIVILEGES ON `competitor-3`.* TO 'competitor-3'@'%';
-GRANT ALL PRIVILEGES ON `competitor-4`.* TO 'competitor-4'@'%';
-GRANT ALL PRIVILEGES ON `competitor-5`.* TO 'competitor-5'@'%';
-GRANT ALL PRIVILEGES ON `competitor-6`.* TO 'competitor-6'@'%';
-GRANT ALL PRIVILEGES ON `competitor-7`.* TO 'competitor-7'@'%';
-GRANT ALL PRIVILEGES ON `competitor-8`.* TO 'competitor-7'@'%';
-GRANT ALL PRIVILEGES ON `competitor-9`.* TO 'competitor-7'@'%';
+
+CREATE DATABASE IF NOT EXISTS `comp02be`;
+CREATE USER IF NOT EXISTS `competitor02`@'%' IDENTIFIED BY 'EStsRsR7u2rG';
+GRANT ALL PRIVILEGES ON `comp02be`.* TO 'competitor02'@'%';
+
+
+CREATE DATABASE IF NOT EXISTS `comp03be`;
+CREATE USER IF NOT EXISTS `competitor03`@'%' IDENTIFIED BY 'MStsjXR7u2rP';
+GRANT ALL PRIVILEGES ON `comp03be`.* TO 'competitor03'@'%';
+
+
+CREATE DATABASE IF NOT EXISTS `comp04be`;
+CREATE USER IF NOT EXISTS `competitor04`@'%' IDENTIFIED BY 'NV6RajXSE3Zn';
+GRANT ALL PRIVILEGES ON `comp04be`.* TO 'competitor04'@'%';
+
+
+CREATE DATABASE IF NOT EXISTS `comp05be`;
+CREATE USER IF NOT EXISTS `competitor05`@'%' IDENTIFIED BY 'G3Cq7Tmuxb46';
+GRANT ALL PRIVILEGES ON `comp05be`.* TO 'competitor05'@'%';
+
+CREATE DATABASE IF NOT EXISTS `comp06be`;
+CREATE USER IF NOT EXISTS `competitor06`@'%' IDENTIFIED BY 'daq7PAQDe8jg';
+GRANT ALL PRIVILEGES ON `comp06be`.* TO 'competitor06'@'%';
+
+
+CREATE DATABASE IF NOT EXISTS `comp07be`;
+CREATE USER IF NOT EXISTS `competitor07`@'%' IDENTIFIED BY 'zibawpdn16';
+GRANT ALL PRIVILEGES ON `comp07be`.* TO 'competitor07'@'%';
+
+
+
+CREATE DATABASE IF NOT EXISTS `comp08be`;
+CREATE USER IF NOT EXISTS `competitor08`@'%' IDENTIFIED BY '5oxjnnq7lz';
+GRANT ALL PRIVILEGES ON `comp08be`.* TO 'competitor08'@'%';
+
+
+CREATE DATABASE IF NOT EXISTS `comp09be`;
+CREATE USER IF NOT EXISTS `competitor09`@'%' IDENTIFIED BY 'mq39yyxw38';
+GRANT ALL PRIVILEGES ON `comp09be`.* TO 'competitor09'@'%';
+
+CREATE DATABASE IF NOT EXISTS `comp10be`;
+CREATE USER IF NOT EXISTS `competitor10`@'%' IDENTIFIED BY '2f86s785oh';
+GRANT ALL PRIVILEGES ON `comp10be`.* TO 'competitor10'@'%';
+
+
+CREATE DATABASE IF NOT EXISTS `comp11be`;
+CREATE USER IF NOT EXISTS `competitor11`@'%' IDENTIFIED BY '0qc17gr31w';
+GRANT ALL PRIVILEGES ON `comp11be`.* TO 'competitor11'@'%';
+
+
+
+CREATE DATABASE IF NOT EXISTS `comp12be`;
+CREATE USER IF NOT EXISTS `competitor12`@'%' IDENTIFIED BY '3lfk1ehwge';
+GRANT ALL PRIVILEGES ON `comp12be`.* TO 'competitor12'@'%';
+
+CREATE DATABASE IF NOT EXISTS `comp13be`;
+CREATE USER IF NOT EXISTS `competitor13`@'%' IDENTIFIED BY 'eh8z7hwtre';
+GRANT ALL PRIVILEGES ON `comp13be`.* TO 'competitor13'@'%';
+
+
+CREATE DATABASE IF NOT EXISTS `comp14be`;
+CREATE USER IF NOT EXISTS `competitor14`@'%' IDENTIFIED BY 'kunxj8o38s';
+GRANT ALL PRIVILEGES ON `comp14be`.* TO 'competitor14'@'%';
+
+
+CREATE DATABASE IF NOT EXISTS `comp15be`;
+CREATE USER IF NOT EXISTS `competitor15`@'%' IDENTIFIED BY 'o2lte6ddu3';
+GRANT ALL PRIVILEGES ON `comp15be`.* TO 'competitor15'@'%';
+
+
+CREATE DATABASE IF NOT EXISTS `comp16be`;
+CREATE USER IF NOT EXISTS `competitor16`@'%' IDENTIFIED BY '3q9mymx05g';
+GRANT ALL PRIVILEGES ON `comp16be`.* TO 'competitor16'@'%';
+
+
+
+CREATE DATABASE IF NOT EXISTS `comp17be`;
+CREATE USER IF NOT EXISTS `competitor17`@'%' IDENTIFIED BY 'hfrb3q4bfp';
+GRANT ALL PRIVILEGES ON `comp17be`.* TO 'competitor17'@'%';

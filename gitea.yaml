@@ -9,7 +9,7 @@ services:
       - gitea
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.gitea.rule: Host(`gitea.skill17.com`)
+      traefik.http.routers.gitea.rule: Host(`git.skill17.com`)
       traefik.http.routers.gitea.entrypoints: websecure
       traefik.http.routers.gitea.tls: true
       traefik.http.services.gitea.loadbalancer.server.port: 3000

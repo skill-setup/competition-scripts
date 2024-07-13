@@ -1,0 +1,423 @@
+---
+services:
+  comp09be:
+    container_name: comp09be
+    image: git.skill17.com/competitor09/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp09be.entrypoints: websecure
+      traefik.http.routers.comp09be.rule: HostRegexp(`{_:48eqiy\..*}`)
+      traefik.http.routers.comp09be.tls: true
+      traefik.http.services.comp09be.loadbalancer.server.port: 80
+    restart: always
+  comp08be:
+    container_name: comp08be
+    image: git.skill17.com/competitor08/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp08be.entrypoints: websecure
+      traefik.http.routers.comp08be.rule: HostRegexp(`{_:nuygsz\..*}`)
+      traefik.http.routers.comp08be.tls: true
+      traefik.http.services.comp08be.loadbalancer.server.port: 80
+    restart: always
+  comp20fe:
+    container_name: comp20fe
+    image: git.skill17.com/competitor20/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp20fe.entrypoints: websecure
+      traefik.http.routers.comp20fe.rule: HostRegexp(`{_:kfx9kt\..*}`)
+      traefik.http.routers.comp20fe.tls: true
+      traefik.http.services.comp20fe.loadbalancer.server.port: 80
+    restart: always
+  comp00fe:
+    container_name: comp00fe
+    image: git.skill17.com/competitor00/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp00fe.entrypoints: websecure
+      traefik.http.routers.comp00fe.rule: HostRegexp(`{_:w8k224\..*}`)
+      traefik.http.routers.comp00fe.tls: true
+      traefik.http.services.comp00fe.loadbalancer.server.port: 80
+    restart: always
+  comp20be:
+    container_name: comp20be
+    image: git.skill17.com/competitor20/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp20be.entrypoints: websecure
+      traefik.http.routers.comp20be.rule: HostRegexp(`{_:wpbhd3\..*}`)
+      traefik.http.routers.comp20be.tls: true
+      traefik.http.services.comp20be.loadbalancer.server.port: 80
+    restart: always
+  comp02fe:
+    container_name: comp02fe
+    image: git.skill17.com/competitor02/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp02fe.entrypoints: websecure
+      traefik.http.routers.comp02fe.rule: HostRegexp(`{_:0y86t7\..*}`)
+      traefik.http.routers.comp02fe.tls: true
+      traefik.http.services.comp02fe.loadbalancer.server.port: 80
+    restart: always
+  comp00be:
+    container_name: comp00be
+    image: git.skill17.com/competitor00/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp00be.entrypoints: websecure
+      traefik.http.routers.comp00be.rule: HostRegexp(`{_:18tmzx\..*}`)
+      traefik.http.routers.comp00be.tls: true
+      traefik.http.services.comp00be.loadbalancer.server.port: 80
+    restart: always
+  comp11be:
+    container_name: comp11be
+    image: git.skill17.com/competitor11/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp11be.entrypoints: websecure
+      traefik.http.routers.comp11be.rule: HostRegexp(`{_:4uhnyf\..*}`)
+      traefik.http.routers.comp11be.tls: true
+      traefik.http.services.comp11be.loadbalancer.server.port: 80
+    restart: always
+  comp14be:
+    container_name: comp14be
+    image: git.skill17.com/competitor14/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp14be.entrypoints: websecure
+      traefik.http.routers.comp14be.rule: HostRegexp(`{_:c8ije6\..*}`)
+      traefik.http.routers.comp14be.tls: true
+      traefik.http.services.comp14be.loadbalancer.server.port: 80
+    restart: always
+  comp10be:
+    container_name: comp10be
+    image: git.skill17.com/competitor10/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp10be.entrypoints: websecure
+      traefik.http.routers.comp10be.rule: HostRegexp(`{_:07fnon\..*}`)
+      traefik.http.routers.comp10be.tls: true
+      traefik.http.services.comp10be.loadbalancer.server.port: 80
+    restart: always
+  comp19fe:
+    container_name: comp19fe
+    image: git.skill17.com/competitor19/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp19fe.entrypoints: websecure
+      traefik.http.routers.comp19fe.rule: HostRegexp(`{_:hblrza\..*}`)
+      traefik.http.routers.comp19fe.tls: true
+      traefik.http.services.comp19fe.loadbalancer.server.port: 80
+    restart: always
+  comp06be:
+    container_name: comp06be
+    image: git.skill17.com/competitor06/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp06be.entrypoints: websecure
+      traefik.http.routers.comp06be.rule: HostRegexp(`{_:409rka\..*}`)
+      traefik.http.routers.comp06be.tls: true
+      traefik.http.services.comp06be.loadbalancer.server.port: 80
+    restart: always
+  comp18be:
+    container_name: comp18be
+    image: git.skill17.com/competitor18/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp18be.entrypoints: websecure
+      traefik.http.routers.comp18be.rule: HostRegexp(`{_:gbyutz\..*}`)
+      traefik.http.routers.comp18be.tls: true
+      traefik.http.services.comp18be.loadbalancer.server.port: 80
+    restart: always
+  comp11fe:
+    container_name: comp11fe
+    image: git.skill17.com/competitor11/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp11fe.entrypoints: websecure
+      traefik.http.routers.comp11fe.rule: HostRegexp(`{_:s2yzrm\..*}`)
+      traefik.http.routers.comp11fe.tls: true
+      traefik.http.services.comp11fe.loadbalancer.server.port: 80
+    restart: always
+  comp13fe:
+    container_name: comp13fe
+    image: git.skill17.com/competitor13/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp13fe.entrypoints: websecure
+      traefik.http.routers.comp13fe.rule: HostRegexp(`{_:7fou2p\..*}`)
+      traefik.http.routers.comp13fe.tls: true
+      traefik.http.services.comp13fe.loadbalancer.server.port: 80
+    restart: always
+  comp03be:
+    container_name: comp03be
+    image: git.skill17.com/competitor03/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp03be.entrypoints: websecure
+      traefik.http.routers.comp03be.rule: HostRegexp(`{_:w8xayh\..*}`)
+      traefik.http.routers.comp03be.tls: true
+      traefik.http.services.comp03be.loadbalancer.server.port: 80
+    restart: always
+  comp10fe:
+    container_name: comp10fe
+    image: git.skill17.com/competitor10/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp10fe.entrypoints: websecure
+      traefik.http.routers.comp10fe.rule: HostRegexp(`{_:thrve8\..*}`)
+      traefik.http.routers.comp10fe.tls: true
+      traefik.http.services.comp10fe.loadbalancer.server.port: 80
+    restart: always
+  comp07fe:
+    container_name: comp07fe
+    image: git.skill17.com/competitor07/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp07fe.entrypoints: websecure
+      traefik.http.routers.comp07fe.rule: HostRegexp(`{_:3ntvxs\..*}`)
+      traefik.http.routers.comp07fe.tls: true
+      traefik.http.services.comp07fe.loadbalancer.server.port: 80
+    restart: always
+  comp05fe:
+    container_name: comp05fe
+    image: git.skill17.com/competitor05/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp05fe.entrypoints: websecure
+      traefik.http.routers.comp05fe.rule: HostRegexp(`{_:ec1afy\..*}`)
+      traefik.http.routers.comp05fe.tls: true
+      traefik.http.services.comp05fe.loadbalancer.server.port: 80
+    restart: always
+  comp01be:
+    container_name: comp01be
+    image: git.skill17.com/competitor01/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp01be.entrypoints: websecure
+      traefik.http.routers.comp01be.rule: HostRegexp(`{_:d9k3fg\..*}`)
+      traefik.http.routers.comp01be.tls: true
+      traefik.http.services.comp01be.loadbalancer.server.port: 80
+    restart: always
+  comp12be:
+    container_name: comp12be
+    image: git.skill17.com/competitor12/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp12be.entrypoints: websecure
+      traefik.http.routers.comp12be.rule: HostRegexp(`{_:zon16c\..*}`)
+      traefik.http.routers.comp12be.tls: true
+      traefik.http.services.comp12be.loadbalancer.server.port: 80
+    restart: always
+  comp02be:
+    container_name: comp02be
+    image: git.skill17.com/competitor02/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp02be.entrypoints: websecure
+      traefik.http.routers.comp02be.rule: HostRegexp(`{_:a3fb8w\..*}`)
+      traefik.http.routers.comp02be.tls: true
+      traefik.http.services.comp02be.loadbalancer.server.port: 80
+    restart: always
+  comp08fe:
+    container_name: comp08fe
+    image: git.skill17.com/competitor08/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp08fe.entrypoints: websecure
+      traefik.http.routers.comp08fe.rule: HostRegexp(`{_:coyu08\..*}`)
+      traefik.http.routers.comp08fe.tls: true
+      traefik.http.services.comp08fe.loadbalancer.server.port: 80
+    restart: always
+  comp15be:
+    container_name: comp15be
+    image: git.skill17.com/competitor15/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp15be.entrypoints: websecure
+      traefik.http.routers.comp15be.rule: HostRegexp(`{_:h5hsbz\..*}`)
+      traefik.http.routers.comp15be.tls: true
+      traefik.http.services.comp15be.loadbalancer.server.port: 80
+    restart: always
+  comp16be:
+    container_name: comp16be
+    image: git.skill17.com/competitor16/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp16be.entrypoints: websecure
+      traefik.http.routers.comp16be.rule: HostRegexp(`{_:a16r20\..*}`)
+      traefik.http.routers.comp16be.tls: true
+      traefik.http.services.comp16be.loadbalancer.server.port: 80
+    restart: always
+  comp05be:
+    container_name: comp05be
+    image: git.skill17.com/competitor05/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp05be.entrypoints: websecure
+      traefik.http.routers.comp05be.rule: HostRegexp(`{_:iw70qg\..*}`)
+      traefik.http.routers.comp05be.tls: true
+      traefik.http.services.comp05be.loadbalancer.server.port: 80
+    restart: always
+  comp07be:
+    container_name: comp07be
+    image: git.skill17.com/competitor07/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp07be.entrypoints: websecure
+      traefik.http.routers.comp07be.rule: HostRegexp(`{_:3nfj4f\..*}`)
+      traefik.http.routers.comp07be.tls: true
+      traefik.http.services.comp07be.loadbalancer.server.port: 80
+    restart: always
+  comp04be:
+    container_name: comp04be
+    image: git.skill17.com/competitor04/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp04be.entrypoints: websecure
+      traefik.http.routers.comp04be.rule: HostRegexp(`{_:wyj7f2\..*}`)
+      traefik.http.routers.comp04be.tls: true
+      traefik.http.services.comp04be.loadbalancer.server.port: 80
+    restart: always
+  comp06fe:
+    container_name: comp06fe
+    image: git.skill17.com/competitor06/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp06fe.entrypoints: websecure
+      traefik.http.routers.comp06fe.rule: HostRegexp(`{_:mqs3gb\..*}`)
+      traefik.http.routers.comp06fe.tls: true
+      traefik.http.services.comp06fe.loadbalancer.server.port: 80
+    restart: always
+  comp16fe:
+    container_name: comp16fe
+    image: git.skill17.com/competitor16/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp16fe.entrypoints: websecure
+      traefik.http.routers.comp16fe.rule: HostRegexp(`{_:fhzoot\..*}`)
+      traefik.http.routers.comp16fe.tls: true
+      traefik.http.services.comp16fe.loadbalancer.server.port: 80
+    restart: always
+  comp01fe:
+    container_name: comp01fe
+    image: git.skill17.com/competitor01/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp01fe.entrypoints: websecure
+      traefik.http.routers.comp01fe.rule: HostRegexp(`{_:47tgpe\..*}`)
+      traefik.http.routers.comp01fe.tls: true
+      traefik.http.services.comp01fe.loadbalancer.server.port: 80
+    restart: always
+  comp14fe:
+    container_name: comp14fe
+    image: git.skill17.com/competitor14/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp14fe.entrypoints: websecure
+      traefik.http.routers.comp14fe.rule: HostRegexp(`{_:q4y7vs\..*}`)
+      traefik.http.routers.comp14fe.tls: true
+      traefik.http.services.comp14fe.loadbalancer.server.port: 80
+    restart: always
+  comp03fe:
+    container_name: comp03fe
+    image: git.skill17.com/competitor03/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp03fe.entrypoints: websecure
+      traefik.http.routers.comp03fe.rule: HostRegexp(`{_:3bufr4\..*}`)
+      traefik.http.routers.comp03fe.tls: true
+      traefik.http.services.comp03fe.loadbalancer.server.port: 80
+    restart: always
+  comp18fe:
+    container_name: comp18fe
+    image: git.skill17.com/competitor18/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp18fe.entrypoints: websecure
+      traefik.http.routers.comp18fe.rule: HostRegexp(`{_:himefi\..*}`)
+      traefik.http.routers.comp18fe.tls: true
+      traefik.http.services.comp18fe.loadbalancer.server.port: 80
+    restart: always
+  comp17fe:
+    container_name: comp17fe
+    image: git.skill17.com/competitor17/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp17fe.entrypoints: websecure
+      traefik.http.routers.comp17fe.rule: HostRegexp(`{_:ls7unb\..*}`)
+      traefik.http.routers.comp17fe.tls: true
+      traefik.http.services.comp17fe.loadbalancer.server.port: 80
+    restart: always
+  comp09fe:
+    container_name: comp09fe
+    image: git.skill17.com/competitor09/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp09fe.entrypoints: websecure
+      traefik.http.routers.comp09fe.rule: HostRegexp(`{_:408t11\..*}`)
+      traefik.http.routers.comp09fe.tls: true
+      traefik.http.services.comp09fe.loadbalancer.server.port: 80
+    restart: always
+  comp04fe:
+    container_name: comp04fe
+    image: git.skill17.com/competitor04/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp04fe.entrypoints: websecure
+      traefik.http.routers.comp04fe.rule: HostRegexp(`{_:nm9cke\..*}`)
+      traefik.http.routers.comp04fe.tls: true
+      traefik.http.services.comp04fe.loadbalancer.server.port: 80
+    restart: always
+  comp12fe:
+    container_name: comp12fe
+    image: git.skill17.com/competitor12/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp12fe.entrypoints: websecure
+      traefik.http.routers.comp12fe.rule: HostRegexp(`{_:2ny3w7\..*}`)
+      traefik.http.routers.comp12fe.tls: true
+      traefik.http.services.comp12fe.loadbalancer.server.port: 80
+    restart: always
+  comp17be:
+    container_name: comp17be
+    image: git.skill17.com/competitor17/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp17be.entrypoints: websecure
+      traefik.http.routers.comp17be.rule: HostRegexp(`{_:yyvq2r\..*}`)
+      traefik.http.routers.comp17be.tls: true
+      traefik.http.services.comp17be.loadbalancer.server.port: 80
+    restart: always
+  comp19be:
+    container_name: comp19be
+    image: git.skill17.com/competitor19/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp19be.entrypoints: websecure
+      traefik.http.routers.comp19be.rule: HostRegexp(`{_:sjkhu1\..*}`)
+      traefik.http.routers.comp19be.tls: true
+      traefik.http.services.comp19be.loadbalancer.server.port: 80
+    restart: always
+  comp13be:
+    container_name: comp13be
+    image: git.skill17.com/competitor13/backend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp13be.entrypoints: websecure
+      traefik.http.routers.comp13be.rule: HostRegexp(`{_:6p5a3a\..*}`)
+      traefik.http.routers.comp13be.tls: true
+      traefik.http.services.comp13be.loadbalancer.server.port: 80
+    restart: always
+  comp15fe:
+    container_name: comp15fe
+    image: git.skill17.com/competitor15/frontend:latest
+    labels:
+      traefik.enable: 'true'
+      traefik.http.routers.comp15fe.entrypoints: websecure
+      traefik.http.routers.comp15fe.rule: HostRegexp(`{_:o90zcm\..*}`)
+      traefik.http.routers.comp15fe.tls: true
+      traefik.http.services.comp15fe.loadbalancer.server.port: 80
+    restart: always
+version: '3.8'
