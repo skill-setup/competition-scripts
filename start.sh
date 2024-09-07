@@ -1,6 +1,11 @@
 #!/bin/bash
-docker compose -f traefik.yaml up -d --remove-orphans
 
+# Read the username and password from the config/passwd file
+USERNAME=$(sed -n '1p' config/passwd)
+PASSWORD=$(sed -n '2p' config/passwd)
+
+# Start Traefik and Gitea using Docker Compose
+docker compose -f traefik.yaml up -d --remove-orphans
 docker compose -f gitea.yaml up -d 
 
 # Wait for Gitea to start
@@ -23,13 +28,17 @@ function wait_for_gitea() {
 # Wait for Gitea to start
 wait_for_gitea
 
-# Create a new Gitea user
-docker exec gitea su -c '/app/gitea/gitea admin user create --username root --password 2Km11hzZ2 --email root@example.com --admin' git
-REGISTRATION_TOKEN=`docker exec gitea su -c '/app/gitea/gitea actions generate-runner-token' git`
+# Create a new Gitea user using the username and password from the passwd file
+docker exec gitea su -c "/app/gitea/gitea admin user create --username $USERNAME --password $PASSWORD --email $USERNAME@example.com --admin" git
+
+# Generate a registration token for the Gitea runner
+REGISTRATION_TOKEN=$(docker exec gitea su -c '/app/gitea/gitea actions generate-runner-token' git)
 export REGISTRATION_TOKEN=$REGISTRATION_TOKEN
 
-echo $REGISTRATION_TOKEN
+echo "Registration Token: $REGISTRATION_TOKEN"
 
+# Start the Gitea runner with the registration token
 REGISTRATION_TOKEN=$REGISTRATION_TOKEN docker compose -f gitea-runner.yaml up -d
 
+# Start MySQL
 docker compose -f mysql.yaml up -d
