@@ -1,12 +1,13 @@
 #!/bin/bash
 
 # Read the username and password from the config/passwd file
-USERNAME=$(sed -n '1p' config/passwd)
-PASSWORD=$(sed -n '2p' config/passwd)
+USERNAME=$(sed -n '1p' config/main)
+PASSWORD=$(sed -n '2p' config/main)
+DOMAIN=$(sed -n '3p' config/main)
 
 # Start Traefik and Gitea using Docker Compose
 docker compose -f traefik.yaml up -d --remove-orphans
-docker compose -f gitea.yaml up -d 
+GITEA_HOSTNAME=$DOMAIN docker compose -f gitea.yaml up -d 
 
 # Wait for Gitea to start
 function wait_for_gitea() {
