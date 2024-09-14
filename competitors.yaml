@@ -9,7 +9,7 @@ services:
       - gitea
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.comp01_module_a.rule: Host(`skill17.local/comp01/module_a`)
+      traefik.http.routers.comp01_module_a.rule: Host(`qwermodule_a.skill17.local`)
     volumes:
       - ./data/comp01/module_a:/usr/share/nginx/html
   comp01_module_b:
@@ -20,7 +20,7 @@ services:
       - gitea
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.comp01_module_b.rule: Host(`skill17.local/comp01/module_b`)
+      traefik.http.routers.comp01_module_b.rule: Host(`qwermodule_b.skill17.local`)
     volumes:
       - ./data/comp01/module_b:/usr/share/nginx/html
   comp01_module_c:
@@ -31,7 +31,7 @@ services:
       - gitea
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.comp01_module_c.rule: Host(`skill17.local/comp01/module_c`)
+      traefik.http.routers.comp01_module_c.rule: Host(`qwermodule_c.skill17.local`)
     volumes:
       - ./data/comp01/module_c:/usr/share/nginx/html
   comp02_module_a:
@@ -42,7 +42,7 @@ services:
       - gitea
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.comp02_module_a.rule: Host(`skill17.local/comp02/module_a`)
+      traefik.http.routers.comp02_module_a.rule: Host(`asdfmodule_a.skill17.local`)
     volumes:
       - ./data/comp02/module_a:/usr/share/nginx/html
   comp02_module_b:
@@ -53,7 +53,7 @@ services:
       - gitea
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.comp02_module_b.rule: Host(`skill17.local/comp02/module_b`)
+      traefik.http.routers.comp02_module_b.rule: Host(`asdfmodule_b.skill17.local`)
     volumes:
       - ./data/comp02/module_b:/usr/share/nginx/html
   comp02_module_c:
@@ -64,7 +64,7 @@ services:
       - gitea
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.comp02_module_c.rule: Host(`skill17.local/comp02/module_c`)
+      traefik.http.routers.comp02_module_c.rule: Host(`asdfmodule_c.skill17.local`)
     volumes:
       - ./data/comp02/module_c:/usr/share/nginx/html
 

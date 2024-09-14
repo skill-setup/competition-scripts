@@ -27,7 +27,7 @@ services:
       - './config/traefik/certs:/etc/certs/'
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.skill17.com`)"
+      - "traefik.http.routers.traefik.rule=Host(`${GITEA_HOSTNAME}`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"

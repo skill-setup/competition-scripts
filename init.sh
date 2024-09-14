@@ -13,8 +13,8 @@ GITEA_HOSTNAME=$DOMAIN docker compose -f gitea.yaml up -d
 
 # Wait for Gitea to start
 function wait_for_gitea() {
-  local retries=30
-  local wait=2
+  local retries=15
+  local wait=3
   local count=0
 
   until curl -s http://localhost:3000/api/v1/version > /dev/null; do
@@ -44,10 +44,32 @@ echo "Registration Token: $REGISTRATION_TOKEN"
 REGISTRATION_TOKEN=$REGISTRATION_TOKEN docker compose -f gitea-runner.yaml up -d
 
 # Start MySQL
-docker compose -f mysql.yaml up -d
+docker compose -f mysql.yaml up -d 
 
 # Start watchtower
-docker compose -f watchtower.yaml up -d 
+docker compose -f watchtower.yaml up -d
+
+#### START GTI PREP
+GITEA_URL="https://git.$DOMAIN"
+GITEA_TOKEN=$(./create_pat.sh "https://git.$DOMAIN" "$USERNAME" "$PASSWORD")
+
+# create org for demo repos
+curl -k -X POST "$GITEA_URL/api/v1/orgs" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: token $GITEA_TOKEN" \
+    -d '{
+        "username": "frameworks",
+        "full_name": "frameworks"
+    }'
+
+./create_organisation.sh $GITEA_TOKEN $GITEA_URL "images"
+./create_organisation.sh $GITEA_TOKEN $GITEA_URL "frameworks"
+
+./import_frameworks.sh $GITEA_TOKEN $GITEA_URL "https://github.com/iwtsc/laravel-base.git" "laravel-base"
+./import_frameworks.sh $GITEA_TOKEN $GITEA_URL "https://github.com/iwtsc/vuejs-base.git" "vuejs-base"
+
+
+
 
 # Generate competitors.yaml
 cat <<EOF > competitors.yaml
@@ -75,7 +97,7 @@ tail -n +5 config/main | while read -r user pass sub; do
       - gitea
     labels:
       traefik.enable: 'true'
-      traefik.http.routers.${user}_${module}.rule: Host(\`$DOMAIN/${user}/${module}\`)
+      traefik.http.routers.${user}_${module}.rule: Host(\`${sub}${module}.$DOMAIN\`)
     volumes:
       - ./data/${user}/${module}:/usr/share/nginx/html
 EOF
@@ -99,4 +121,4 @@ networks:
     external: true
 EOF
 
-docker compose -f competitors.yaml up -d
+docker compose -f competitors.yaml up -d 

@@ -13,16 +13,17 @@ PASSWORD="$3"
 TOKEN_NAME="CreateOrganizationScript"
 
 # Create a new personal access token
-response=$(curl -X POST -H "Content-Type: application/json" \
+response=$(curl -k -X POST -H "Content-Type: application/json" \
     -u "$USERNAME:$PASSWORD" \
     -d '{
           "name": "'"$TOKEN_NAME"'",
-          "scopes": ["write:organization"]
+          "scopes": ["read:admin","write:organization,write:repository"]
         }' \
     "$GITEA_URL/api/v1/users/$USERNAME/tokens")
 
 # Extract the token from the response
-new_token=$(echo $response | jq -r '.sha1')
+# new_token=$(echo $response | jq -r '.sha1')
+new_token=$(echo "$response" | grep -o '"sha1":"[^"]*"' | sed 's/"sha1":"//;s/"//g')
 
 # Check if the token was successfully created
 if [ "$new_token" == "null" ]; then
@@ -30,4 +31,4 @@ if [ "$new_token" == "null" ]; then
     exit 1
 fi
 
-echo "New personal access token created: $new_token"
+echo "$new_token"
