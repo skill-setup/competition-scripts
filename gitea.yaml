@@ -12,9 +12,9 @@ services:
       traefik.http.routers.gitea.tls: true
       traefik.http.services.gitea.loadbalancer.server.port: 3000
     volumes:
-      - ./data/gitea:/data/gitea
+      # - ./data/gitea:/data/gitea
       - ./config/gitea:/data/gitea/conf
-      - ./scripts:/scripts
+      # - ./scripts:/scripts
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     environment:

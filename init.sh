@@ -47,7 +47,7 @@ REGISTRATION_TOKEN=$REGISTRATION_TOKEN docker compose -f gitea-runner.yaml up -d
 docker compose -f mysql.yaml up -d 
 
 # Start watchtower
-docker compose -f watchtower.yaml up -d
+USERNAME=$USERNAME PASSWORD=$PASSWORD docker compose -f watchtower.yaml up -d
 
 #### START GTI PREP
 GITEA_URL="https://git.$DOMAIN"
@@ -101,7 +101,7 @@ tail -n +5 config/main | while read -r user pass sub; do
       - "traefik.http.routers.comp01_module_a.entrypoints=websecure"
       - "traefik.http.routers.comp01_module_a.tls=true"
       - "traefik.http.services.comp01_module_a.loadbalancer.server.port=80"
-      - "com.watchtower.enable=true"
+      - "com.centurylinklabs.watchtower.enable=true"
 EOF
     
     ./add_user_to_team.sh $GITEA_URL $GITEA_TOKEN "frameworks" "competitors" ${user}
@@ -110,12 +110,6 @@ EOF
     docker tag nginx:latest git.$DOMAIN/$user/$module:latest
     docker push git.$DOMAIN/$user/$module:latest
   done
-
-#  docker tag nginx:latest git.skill17.com/competitor$i/backend:latest
-#  docker tag nginx:latest git.skill17.com/competitor$i/frontend:latest
-
-#  docker push git.skill17.com/competitor$i/backend:latest
-#  docker push git.skill17.com/competitor$i/frontend:latest
 done
 
 cat <<EOF >> competitors.yaml
@@ -124,7 +118,5 @@ networks:
   gitea:
     external: true
 EOF
-
-
 
 docker compose -f competitors.yaml up -d 

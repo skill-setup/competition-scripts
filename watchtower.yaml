@@ -1,4 +1,16 @@
 services:
+  docker-login:
+    image: "docker:latest"  # Docker official image
+    container_name: "docker-login"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"   # Use host Docker to perform login
+      - "./config/watchtower:/root/.docker"                   # Shared volume with Watchtower
+    entrypoint: >
+      sh -c "
+      echo 'Logging in to Docker registry...';
+      docker login git.skill17.local -u ${USERNAME} -p ${PASSWORD};
+      echo 'Docker login complete.'
+      "
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
@@ -11,9 +23,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/watchtower/config.json:/config.json
       - ./config/traefik/certs/ca-cert.crt:/etc/ssl/cert.pem
-    command: --interval 10 --cleanup true --include-stopped --revive-stopped --label-enable
+    command: --interval 10 --cleanup --include-stopped --revive-stopped --label-enable
     labels:
-      traefik.enable: 'true'
-      traefik.http.routers.watchtower.rule: HostRegexp(`{_:watchtower\..*}`)
-      traefik.http.services.watchtower.loadbalancer.server.port: 8080
-
+      - "traefik.enable=true"
+      - "traefik.http.routers.watchtower.rule=HostRegexp(`{_:watchtower\\..*}`)"  # Regexp for `*.watchtower.*` subdomains
+      - "traefik.http.services.watchtower.loadbalancer.server.port=8080"  # Watchtower doesn't serve HTTP, but if you need endpoints on port 8080
