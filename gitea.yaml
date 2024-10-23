@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   gitea:
     container_name: gitea
@@ -19,13 +17,15 @@ services:
       - ./scripts:/scripts
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+    environment:
+      - GITEA__SERVER__ROOT_URL=https://git.${GITEA_HOSTNAME} 
     ports:
       - "3000:3000"
       - "2222:22"
     depends_on:
-      - db
+      - gitea-db
 
-  db:
+  gitea-db:
     container_name: gitea-db
     image: mysql:8
     restart: always

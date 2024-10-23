@@ -13,7 +13,7 @@ GITEA_HOSTNAME=$DOMAIN docker compose -f gitea.yaml up -d
 
 # Wait for Gitea to start
 function wait_for_gitea() {
-  local retries=15
+  local retries=10
   local wait=3
   local count=0
 
@@ -65,16 +65,16 @@ curl -k -X POST "$GITEA_URL/api/v1/orgs" \
 ./create_organisation.sh $GITEA_TOKEN $GITEA_URL "images"
 ./create_organisation.sh $GITEA_TOKEN $GITEA_URL "frameworks"
 
-./import_frameworks.sh $GITEA_TOKEN $GITEA_URL "https://github.com/iwtsc/laravel-base.git" "laravel-base"
-./import_frameworks.sh $GITEA_TOKEN $GITEA_URL "https://github.com/iwtsc/vuejs-base.git" "vuejs-base"
+./create_team.sh $GITEA_TOKEN $GITEA_URL "frameworks" "competitors" false
 
+./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/iwtsc/laravel-base.git" "laravel"
+./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/on-lick/vuejs.git" "vuejs"
 
-
+docker pull nginx:latest
+docker login -u $USERNAME -p $PASSWORD git.$DOMAIN 
 
 # Generate competitors.yaml
 cat <<EOF > competitors.yaml
-version: '3.8'
-
 services:
 EOF
 
@@ -90,21 +90,25 @@ tail -n +5 config/main | while read -r user pass sub; do
 
     cat <<EOF >> competitors.yaml
   ${user}_${module}:
-    image: nginx:latest
+    image: git.${DOMAIN}/${user}/${module}:latest
     container_name: ${user}_${module}
     restart: always
     networks:
       - gitea
     labels:
-      traefik.enable: 'true'
-      traefik.http.routers.${user}_${module}.rule: Host(\`${sub}${module}.$DOMAIN\`)
-    volumes:
-      - ./data/${user}/${module}:/usr/share/nginx/html
+      - "traefik.enable=true"
+      - "traefik.http.routers.comp01_module_a.rule=Host(\`${sub}-${module}.$DOMAIN\`)"
+      - "traefik.http.routers.comp01_module_a.entrypoints=websecure"
+      - "traefik.http.routers.comp01_module_a.tls=true"
+      - "traefik.http.services.comp01_module_a.loadbalancer.server.port=80"
+      - "com.watchtower.enable=true"
 EOF
     
-    # Example Docker commands using both competitor and module variables
-#    docker tag nginx:latest $DOMAIN/competitor$i/$module:latest
-#    docker push $DOMAIN/competitor$i/$module:latest
+    ./add_user_to_team.sh $GITEA_URL $GITEA_TOKEN "frameworks" "competitors" ${user}
+
+    echo "pushing inital container"
+    docker tag nginx:latest git.$DOMAIN/$user/$module:latest
+    docker push git.$DOMAIN/$user/$module:latest
   done
 
 #  docker tag nginx:latest git.skill17.com/competitor$i/backend:latest
@@ -120,5 +124,7 @@ networks:
   gitea:
     external: true
 EOF
+
+
 
 docker compose -f competitors.yaml up -d 

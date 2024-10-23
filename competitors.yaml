@@ -1,73 +1,14 @@
-version: '3.8'
-
 services:
   comp01_module_a:
-    image: nginx:latest
+    image: git.skill17.local/comp01/module_a:latest
     container_name: comp01_module_a
     restart: always
     networks:
       - gitea
     labels:
-      traefik.enable: 'true'
-      traefik.http.routers.comp01_module_a.rule: Host(`qwermodule_a.skill17.local`)
-    volumes:
-      - ./data/comp01/module_a:/usr/share/nginx/html
-  comp01_module_b:
-    image: nginx:latest
-    container_name: comp01_module_b
-    restart: always
-    networks:
-      - gitea
-    labels:
-      traefik.enable: 'true'
-      traefik.http.routers.comp01_module_b.rule: Host(`qwermodule_b.skill17.local`)
-    volumes:
-      - ./data/comp01/module_b:/usr/share/nginx/html
-  comp01_module_c:
-    image: nginx:latest
-    container_name: comp01_module_c
-    restart: always
-    networks:
-      - gitea
-    labels:
-      traefik.enable: 'true'
-      traefik.http.routers.comp01_module_c.rule: Host(`qwermodule_c.skill17.local`)
-    volumes:
-      - ./data/comp01/module_c:/usr/share/nginx/html
-  comp02_module_a:
-    image: nginx:latest
-    container_name: comp02_module_a
-    restart: always
-    networks:
-      - gitea
-    labels:
-      traefik.enable: 'true'
-      traefik.http.routers.comp02_module_a.rule: Host(`asdfmodule_a.skill17.local`)
-    volumes:
-      - ./data/comp02/module_a:/usr/share/nginx/html
-  comp02_module_b:
-    image: nginx:latest
-    container_name: comp02_module_b
-    restart: always
-    networks:
-      - gitea
-    labels:
-      traefik.enable: 'true'
-      traefik.http.routers.comp02_module_b.rule: Host(`asdfmodule_b.skill17.local`)
-    volumes:
-      - ./data/comp02/module_b:/usr/share/nginx/html
-  comp02_module_c:
-    image: nginx:latest
-    container_name: comp02_module_c
-    restart: always
-    networks:
-      - gitea
-    labels:
-      traefik.enable: 'true'
-      traefik.http.routers.comp02_module_c.rule: Host(`asdfmodule_c.skill17.local`)
-    volumes:
-      - ./data/comp02/module_c:/usr/share/nginx/html
-
-networks:
-  gitea:
-    external: true
+      - "traefik.enable=true"
+      - "traefik.http.routers.comp01_module_a.rule=Host(`qwer-module_a.skill17.local`)"
+      - "traefik.http.routers.comp01_module_a.entrypoints=websecure"
+      - "traefik.http.routers.comp01_module_a.tls=true"
+      - "traefik.http.services.comp01_module_a.loadbalancer.server.port=80"
+      - "com.watchtower.enable=true"

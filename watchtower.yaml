@@ -11,7 +11,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/watchtower/config.json:/config.json
       - ./config/traefik/certs/ca-cert.crt:/etc/ssl/cert.pem
-    command: --interval 10 --cleanup true --include-stopped --revive-stopped comp.*
+    command: --interval 10 --cleanup true --include-stopped --revive-stopped --label-enable
     labels:
       traefik.enable: 'true'
       traefik.http.routers.watchtower.rule: HostRegexp(`{_:watchtower\..*}`)
