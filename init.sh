@@ -2,9 +2,9 @@
 
 # Read the username and password from the config/main file
 DOMAIN=$(sed -n '1p' config/main)
-MODULES=$(sed -n '2p' config/main)
-USERNAME=$(sed -n '3p' config/main)
-PASSWORD=$(sed -n '4p' config/main)
+USERNAME=$(sed -n '2p' config/main)
+PASSWORD=$(sed -n '3p' config/main)
+MODULES=$(sed -n '4p' config/main)
 
 export GITEA_HOSTNAME=$DOMAIN
 
