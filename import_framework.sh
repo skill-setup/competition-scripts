@@ -18,8 +18,8 @@ REPO_NAME=$4
 # echo "GITHUB_URL: $GITHUB_URL"
 # echo "REPO_NAME: $REPO_NAME"
 
-# Migrate repository
-response=$(curl -k -X POST "$GITEA_URL/api/v1/repos/migrate" \
+# migrate repository - to debug remove the -s silent flag
+response=$(curl -s -k -X POST "$GITEA_URL/api/v1/repos/migrate" \
 -H "Authorization: token $GITEA_TOKEN" \
 -H "Content-Type: application/json" \
 -d '{
@@ -29,19 +29,19 @@ response=$(curl -k -X POST "$GITEA_URL/api/v1/repos/migrate" \
   "mirror": false,
   "private": false,
   "template": true
-}') > /dev/null 2> /dev/null
+}')
 
 PATCH_REPO_ENDPOINT="$GITEA_URL/api/v1/repos/frameworks/$REPO_NAME"
 # echo $PATCH_REPO_ENDPOINT
 
-response=$(curl -k -s -X PATCH \
+response=$(curl -s -k -s -X PATCH \
     -H "Content-Type: application/json" \
     -H "Authorization: token $GITEA_TOKEN" \
     -d '{
           "private": false,
           "template": true
         }' \
-    "$PATCH_REPO_ENDPOINT") > /dev/null 2> /dev/null
+    "$PATCH_REPO_ENDPOINT")
 
 # echo $response
 

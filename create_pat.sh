@@ -13,7 +13,7 @@ PASSWORD="$3"
 TOKEN_NAME="CreateOrganizationScript"
 
 # Create a new personal access token
-response=$(curl -k -X POST -H "Content-Type: application/json" \
+response=$(curl -s -k -X POST -H "Content-Type: application/json" \
     -u "$USERNAME:$PASSWORD" \
     -d '{
           "name": "'"$TOKEN_NAME"'",

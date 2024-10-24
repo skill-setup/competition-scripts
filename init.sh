@@ -6,6 +6,8 @@ MODULES=$(sed -n '2p' config/main)
 USERNAME=$(sed -n '3p' config/main)
 PASSWORD=$(sed -n '4p' config/main)
 
+export GITEA_HOSTNAME=$DOMAIN
+
 # create various config and creation files
 # Start Traefik and Gitea using Docker Compose
 docker compose -f traefik.yaml up -d --remove-orphans
@@ -54,13 +56,13 @@ GITEA_URL="https://git.$DOMAIN"
 GITEA_TOKEN=$(./create_pat.sh "https://git.$DOMAIN" "$USERNAME" "$PASSWORD")
 
 # create org for demo repos
-curl -k -X POST "$GITEA_URL/api/v1/orgs" \
+response=$(curl -s -k -X POST "$GITEA_URL/api/v1/orgs" \
     -H "Content-Type: application/json" \
     -H "Authorization: token $GITEA_TOKEN" \
     -d '{
         "username": "frameworks",
         "full_name": "frameworks"
-    }'
+    }')
 
 ./create_organisation.sh $GITEA_TOKEN $GITEA_URL "images"
 ./create_organisation.sh $GITEA_TOKEN $GITEA_URL "frameworks"

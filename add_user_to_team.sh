@@ -16,13 +16,9 @@ USERNAME="$5"
 # API endpoint to get the team ID by name
 GET_TEAM_ID_ENDPOINT="$GITEA_URL/api/v1/orgs/$ORG_NAME/teams/search?q=$TEAM_NAME"
 
-echo $GET_TEAM_ID_ENDPOINT
-
 # Get the team ID
 # team_id=$(curl -s -H "Authorization: token $GITEA_TOKEN" "$GET_TEAM_ID_ENDPOINT" | jq -r ".data[] | select(.name == \"$TEAM_NAME\") | .id")
 team_id=$(curl -k -s -H "Authorization: token $GITEA_TOKEN" "$GET_TEAM_ID_ENDPOINT" | awk -F'"id":' '{print $2}' | awk -F',' '{print $1}' | head -n 1)
-
-echo $team_id
 
 # Check if the team ID was successfully retrieved
 if [ "$team_id" == "null" ]; then

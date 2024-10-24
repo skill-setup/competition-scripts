@@ -12,12 +12,12 @@ GITEA_URL="$2"
 ORG_NAME="$3"
 
 # Create organization
-curl -k -X POST "$GITEA_URL/api/v1/orgs" \
+response=$(curl -s -k -X POST "$GITEA_URL/api/v1/orgs" \
     -H "Content-Type: application/json" \
     -H "Authorization: token $GITEA_TOKEN" \
     -d '{
         "username": "'"$ORG_NAME"'",
         "full_name": "'"$ORG_NAME"'"
-    }'
+    }')
 
 echo "Organization '$ORG_NAME' created."
