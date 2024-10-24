@@ -8,14 +8,15 @@ services:
     entrypoint: >
       sh -c "
       echo 'Logging in to Docker registry...';
-      docker login git.skill17.local -u ${USERNAME} -p ${PASSWORD};
+      docker login git.${DOMAIN} -u ${USERNAME} -p ${PASSWORD};
       echo 'Docker login complete.'
       "
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
     restart: always
-    network_mode: host
+    networks:
+      - gitea
     environment:
       - DOCKER_TLS_VERIFY=0
       - SSL_CERT_FILE=/etc/ssl/cert.pem
@@ -28,3 +29,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.watchtower.rule=HostRegexp(`{_:watchtower\\..*}`)"  # Regexp for `*.watchtower.*` subdomains
       - "traefik.http.services.watchtower.loadbalancer.server.port=8080"  # Watchtower doesn't serve HTTP, but if you need endpoints on port 8080
+
+networks:
+  gitea:
+    external: true

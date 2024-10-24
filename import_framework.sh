@@ -13,10 +13,10 @@ GITHUB_URL=$3
 REPO_NAME=$4
 
 # Print variables for debugging
-echo "GITEA_TOKEN: $GITEA_TOKEN"
-echo "GITEA_URL: $GITEA_URL"
-echo "GITHUB_URL: $GITHUB_URL"
-echo "REPO_NAME: $REPO_NAME"
+# echo "GITEA_TOKEN: $GITEA_TOKEN"
+# echo "GITEA_URL: $GITEA_URL"
+# echo "GITHUB_URL: $GITHUB_URL"
+# echo "REPO_NAME: $REPO_NAME"
 
 # Migrate repository
 response=$(curl -k -X POST "$GITEA_URL/api/v1/repos/migrate" \
@@ -29,10 +29,10 @@ response=$(curl -k -X POST "$GITEA_URL/api/v1/repos/migrate" \
   "mirror": false,
   "private": false,
   "template": true
-}')
+}') > /dev/null 2> /dev/null
 
 PATCH_REPO_ENDPOINT="$GITEA_URL/api/v1/repos/frameworks/$REPO_NAME"
-echo $PATCH_REPO_ENDPOINT
+# echo $PATCH_REPO_ENDPOINT
 
 response=$(curl -k -s -X PATCH \
     -H "Content-Type: application/json" \
@@ -41,9 +41,9 @@ response=$(curl -k -s -X PATCH \
           "private": false,
           "template": true
         }' \
-    "$PATCH_REPO_ENDPOINT")
+    "$PATCH_REPO_ENDPOINT") > /dev/null 2> /dev/null
 
-echo $response
+# echo $response
 
 # Output response for debugging
-echo "..done!"
+# echo "..done!"

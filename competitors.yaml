@@ -1,13 +1,13 @@
 services:
   comp01_module_a:
-    image: git.skill17.local/comp01/module_a:latest
+    image: git.skill17.localhost/comp01/module_a:latest
     container_name: comp01_module_a
     restart: always
     networks:
       - gitea
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.comp01_module_a.rule=Host(`qwer-module_a.skill17.local`)"
+      - "traefik.http.routers.comp01_module_a.rule=Host(`qwer-module_a.skill17.localhost`)"
       - "traefik.http.routers.comp01_module_a.entrypoints=websecure"
       - "traefik.http.routers.comp01_module_a.tls=true"
       - "traefik.http.services.comp01_module_a.loadbalancer.server.port=80"

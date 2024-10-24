@@ -47,7 +47,7 @@ REGISTRATION_TOKEN=$REGISTRATION_TOKEN docker compose -f gitea-runner.yaml up -d
 docker compose -f mysql.yaml up -d 
 
 # Start watchtower
-USERNAME=$USERNAME PASSWORD=$PASSWORD docker compose -f watchtower.yaml up -d
+USERNAME=$USERNAME PASSWORD=$PASSWORD DOMAIN=$DOMAIN docker compose -f watchtower.yaml up -d
 
 #### START GTI PREP
 GITEA_URL="https://git.$DOMAIN"
@@ -70,25 +70,23 @@ curl -k -X POST "$GITEA_URL/api/v1/orgs" \
 ./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/iwtsc/laravel-base.git" "laravel"
 ./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/on-lick/vuejs.git" "vuejs"
 
-docker pull nginx:latest
-docker login -u $USERNAME -p $PASSWORD git.$DOMAIN 
+docker pull nginx:latest > /dev/null 2>&1
+docker login -u $USERNAME -p $PASSWORD git.$DOMAIN > /dev/null 2>&1
 
 # Generate competitors.yaml
 cat <<EOF > competitors.yaml
 services:
 EOF
 
-
 # initialize the basic modules
 tail -n +5 config/main | while read -r user pass sub; do
 
-  echo $user $pass $sub
-  docker exec gitea su -c '/app/gitea/gitea admin user create --username '$user' --password '$pass' --email '$user@example.com' --must-change-password=false' git
+    docker exec gitea su -c '/app/gitea/gitea admin user create --username '$user' --password '$pass' --email '$user@example.com' --must-change-password=false' git
 
   for module in $MODULES; do
     echo "Processing module: $module for $user"
 
-    cat <<EOF >> competitors.yaml
+  cat <<EOF >> competitors.yaml
   ${user}_${module}:
     image: git.${DOMAIN}/${user}/${module}:latest
     container_name: ${user}_${module}
@@ -107,8 +105,8 @@ EOF
     ./add_user_to_team.sh $GITEA_URL $GITEA_TOKEN "frameworks" "competitors" ${user}
 
     echo "pushing inital container"
-    docker tag nginx:latest git.$DOMAIN/$user/$module:latest
-    docker push git.$DOMAIN/$user/$module:latest
+    docker tag nginx:latest git.$DOMAIN/$user/$module
+    docker push git.$DOMAIN/$user/$module
   done
 done
 

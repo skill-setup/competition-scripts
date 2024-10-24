@@ -37,8 +37,6 @@ response=$(curl -k -s -X POST -H "Content-Type: application/json" \
         }' \
     "$API_ENDPOINT")
 
-echo $response
-
 # Extract the team ID from the response
 # team_id=$(echo $response | jq -r '.id')
 team_id=$(echo "$response" | awk -F'"id":' '{print $2}' | awk -F',' '{print $1}')
