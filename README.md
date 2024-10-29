@@ -3,7 +3,7 @@
 ## Description
 The idea behind this project is to create a competition environment as simple as possible. One command to start the competition.
 
-## How to use it
+## How to use the environment
 It is as simple as that
 
 ```init.sh```
@@ -19,6 +19,11 @@ to start it again use
 and to clean the whole system use
 
 ```clean.sh```
+
+## How to access the environment
+To access the git server use the subdomain git of your configured domain, e.g. git.skill17.localhost
+
+To access the competitors work use the configured competitor subdomain and the module name, e.g. qwer-module_a.skill17.localhost
 
 ## How to configure the environment
 The configuration of your competition is done in the config/main configuration file.
