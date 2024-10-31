@@ -19,7 +19,7 @@ function wait_for_gitea() {
   local wait=3
   local count=0
 
-  until curl -k -s https://git.$DOMAIN/api/v1/version > /dev/null; do
+  until curl -k -s http://localhost:3000/api/v1/version > /dev/null; do
     if [ $count -ge $retries ]; then
       echo "Gitea did not become ready in time."
       exit 1
