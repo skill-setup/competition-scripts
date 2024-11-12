@@ -71,8 +71,8 @@ response=$(curl -s -k -X POST "$GITEA_URL/api/v1/orgs" \
 
 ./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/laravel-base.git" "laravel"
 ./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/vuejs.git" "vuejs"
-./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/react-vite-js-base.git" "vuejs"
-./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/vanilla-base.git" "vuejs"
+./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/react-vite-js-base.git" "react"
+./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/vanilla-base.git" "vanillajs"
 
 docker pull nginx:latest > /dev/null 2>&1
 docker login -u $USERNAME -p $PASSWORD git.$DOMAIN > /dev/null 2>&1
