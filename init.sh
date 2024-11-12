@@ -16,10 +16,10 @@ GITEA_HOSTNAME=$DOMAIN docker compose -f gitea.yaml up -d
 # Wait for Gitea to start
 function wait_for_gitea() {
   local retries=10
-  local wait=3
+  local wait=5
   local count=0
 
-  until curl -k -s http://localhost:3000/api/v1/version > /dev/null; do
+  until curl -s http://localhost:3000/api/v1/version > /dev/null; do
     if [ $count -ge $retries ]; then
       echo "Gitea did not become ready in time."
       exit 1
@@ -97,18 +97,18 @@ tail -n +5 config/main | while read -r user pass sub; do
       - gitea
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.comp01_module_a.rule=Host(\`${sub}-${module}.$DOMAIN\`)"
-      - "traefik.http.routers.comp01_module_a.entrypoints=websecure"
-      - "traefik.http.routers.comp01_module_a.tls=true"
-      - "traefik.http.services.comp01_module_a.loadbalancer.server.port=80"
+      - "traefik.http.routers.${user}_${module}.rule=Host(\`${sub}-${module}.$DOMAIN\`)"
+      - "traefik.http.routers.${user}_${module}.entrypoints=websecure"
+      - "traefik.http.routers.${user}_${module}.tls=true"
+      - "traefik.http.services.${user}_${module}.loadbalancer.server.port=80"
       - "com.centurylinklabs.watchtower.enable=true"
 EOF
     
     ./add_user_to_team.sh $GITEA_URL $GITEA_TOKEN "frameworks" "competitors" ${user}
 
     echo "pushing inital container"
-    docker tag nginx:latest git.$DOMAIN/$user/$module
-    docker push git.$DOMAIN/$user/$module
+    docker tag nginx:latest git.$DOMAIN/$user/$module:latest
+    docker push git.$DOMAIN/$user/$module > /dev/null 2>&1
   done
 done
 
@@ -120,3 +120,5 @@ networks:
 EOF
 
 docker compose -f competitors.yaml up -d 
+
+echo "..all done!"
