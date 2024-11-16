@@ -46,4 +46,4 @@ response=$(curl -s -k -s -X PATCH \
 # echo $response
 
 # Output response for debugging
-# echo "..done!"
+echo "..$REPO_NAME done!"

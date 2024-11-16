@@ -1,9 +1,6 @@
 {
 	"auths": {
-		"git.skill17.local": {
-			"auth": "cm9vdDpza2lsbDE3"
-		},
-		"git.skill17.localhost": {
+		"git.local.skill17.com": {
 			"auth": "cm9vdDpza2lsbDE3"
 		}
 	}

@@ -1,16 +1,55 @@
 services:
   comp01_module_a:
-    image: git.skill17.localhost/comp01/module_a:latest
+    image: git.local.skill17.com/comp01/module_a:latest
     container_name: comp01_module_a
     restart: always
     networks:
       - gitea
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.comp01_module_a.rule=Host(`qwer-module_a.skill17.localhost`)"
-      - "traefik.http.routers.comp01_module_a.entrypoints=websecure"
-      - "traefik.http.routers.comp01_module_a.tls=true"
+      - "traefik.http.routers.comp01_module_a.rule=Host(`qwer-module_a.local.skill17.com`)"
+      - "traefik.http.routers.comp01_module_a.entrypoints=web"
+      - "traefik.http.routers.comp01_module_a.tls=false"
       - "traefik.http.services.comp01_module_a.loadbalancer.server.port=80"
+      - "com.centurylinklabs.watchtower.enable=true"
+  comp01_module_b:
+    image: git.local.skill17.com/comp01/module_b:latest
+    container_name: comp01_module_b
+    restart: always
+    networks:
+      - gitea
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.comp01_module_b.rule=Host(`qwer-module_b.local.skill17.com`)"
+      - "traefik.http.routers.comp01_module_b.entrypoints=web"
+      - "traefik.http.routers.comp01_module_b.tls=false"
+      - "traefik.http.services.comp01_module_b.loadbalancer.server.port=80"
+      - "com.centurylinklabs.watchtower.enable=true"
+  comp02_module_a:
+    image: git.local.skill17.com/comp02/module_a:latest
+    container_name: comp02_module_a
+    restart: always
+    networks:
+      - gitea
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.comp02_module_a.rule=Host(`asdf-module_a.local.skill17.com`)"
+      - "traefik.http.routers.comp02_module_a.entrypoints=web"
+      - "traefik.http.routers.comp02_module_a.tls=false"
+      - "traefik.http.services.comp02_module_a.loadbalancer.server.port=80"
+      - "com.centurylinklabs.watchtower.enable=true"
+  comp02_module_b:
+    image: git.local.skill17.com/comp02/module_b:latest
+    container_name: comp02_module_b
+    restart: always
+    networks:
+      - gitea
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.comp02_module_b.rule=Host(`asdf-module_b.local.skill17.com`)"
+      - "traefik.http.routers.comp02_module_b.entrypoints=web"
+      - "traefik.http.routers.comp02_module_b.tls=false"
+      - "traefik.http.services.comp02_module_b.loadbalancer.server.port=80"
       - "com.centurylinklabs.watchtower.enable=true"
 
 networks:

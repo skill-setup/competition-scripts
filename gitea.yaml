@@ -22,7 +22,9 @@ services:
     environment:
       # - GITEA__SERVER__ROOT_URL=https://git.${GITEA_HOSTNAME} 
       - GITEA__SERVER__ROOT_URL=http://git.${GITEA_HOSTNAME} 
-      - GITEA__SERVER__DOMAIN=git.${GITEA_HOSTNAME} 
+      - GITEA__SERVER__DOMAIN=git.${GITEA_HOSTNAME}
+      - GITEA__SERVER__SSH_DOMAIN=git.${GITEA_HOSTNAME}
+      - GITEA__DOCKER__REGISTRY_HOST=git.${GITEA_HOSTNAME}
     ports:
       - "3000:3000"
       - "2222:22"

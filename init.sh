@@ -2,16 +2,26 @@
 
 # Read the username and password from the config/main file
 DOMAIN=$(sed -n '1p' config/main)
-USERNAME=$(sed -n '2p' config/main)
-PASSWORD=$(sed -n '3p' config/main)
-MODULES=$(sed -n '4p' config/main)
+ENABLE_HTTPS=$(sed -n '2p' config/main)
+USERNAME=$(sed -n '3p' config/main)
+PASSWORD=$(sed -n '4p' config/main)
+MODULES=$(sed -n '5p' config/main)
 
 export GITEA_HOSTNAME=$DOMAIN
+export ENABLE_HTTPS=$ENABLE_HTTPS
+
+if [ "$ENABLE_HTTPS" = "true" ]; then
+  export ENTRYPOINT=websecure
+  export GITEA_PROTOCOL=https
+else
+  export ENTRYPOINT=web
+  export GITEA_PROTOCOL=http
+fi
 
 # create various config and creation files
 # Start Traefik and Gitea using Docker Compose
-docker compose -f traefik.yaml up -d --remove-orphans
-GITEA_HOSTNAME=$DOMAIN docker compose -f gitea.yaml up -d
+GITEA_HOSTNAME=$DOMAIN GITEA_PROTOCOL=$GITEA_PROTOCOL ENTRYPOINT=$ENTRYPOINT ENABLE_HTTPS=$ENABLE_HTTPS docker compose -f traefik.yaml up -d --remove-orphans
+GITEA_HOSTNAME=$DOMAIN GITEA_PROTOCOL=$GITEA_PROTOCOL ENTRYPOINT=$ENTRYPOINT ENABLE_HTTPS=$ENABLE_HTTPS docker compose -f gitea.yaml up -d
 
 # Wait for Gitea to start
 function wait_for_gitea() {
@@ -52,8 +62,8 @@ docker compose -f mysql.yaml up -d
 USERNAME=$USERNAME PASSWORD=$PASSWORD DOMAIN=$DOMAIN docker compose -f watchtower.yaml up -d
 
 #### START GTI PREP
-GITEA_URL="https://git.$DOMAIN"
-GITEA_TOKEN=$(./create_pat.sh "https://git.$DOMAIN" "$USERNAME" "$PASSWORD")
+GITEA_URL="$GITEA_PROTOCOL://git.$DOMAIN"
+GITEA_TOKEN=$(./create_pat.sh "$GITEA_PROTOCOL://git.$DOMAIN" "$USERNAME" "$PASSWORD")
 
 # create org for demo repos
 response=$(curl -s -k -X POST "$GITEA_URL/api/v1/orgs" \
@@ -83,9 +93,10 @@ services:
 EOF
 
 # initialize the basic modules
-tail -n +5 config/main | while read -r user pass sub; do
+tail -n +6 config/main | while read -r user pass sub; do
 
-    docker exec gitea su -c '/app/gitea/gitea admin user create --username '$user' --password '$pass' --email '$user@example.com' --must-change-password=false' git
+  docker exec gitea su -c '/app/gitea/gitea admin user create --username '$user' --password '$pass' --email '$user@example.com' --must-change-password=false' git
+  ./add_user_to_team.sh $GITEA_URL $GITEA_TOKEN "frameworks" "competitors" ${user}
 
   for module in $MODULES; do
     echo "Processing module: $module for $user"
@@ -100,17 +111,15 @@ tail -n +5 config/main | while read -r user pass sub; do
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${user}_${module}.rule=Host(\`${sub}-${module}.$DOMAIN\`)"
-      - "traefik.http.routers.${user}_${module}.entrypoints=websecure"
-      - "traefik.http.routers.${user}_${module}.tls=true"
+      - "traefik.http.routers.${user}_${module}.entrypoints=web"
+      - "traefik.http.routers.${user}_${module}.tls=false"
       - "traefik.http.services.${user}_${module}.loadbalancer.server.port=80"
       - "com.centurylinklabs.watchtower.enable=true"
 EOF
     
-    ./add_user_to_team.sh $GITEA_URL $GITEA_TOKEN "frameworks" "competitors" ${user}
-
     echo "pushing inital container"
     docker tag nginx:latest git.$DOMAIN/$user/$module:latest
-    docker push git.$DOMAIN/$user/$module > /dev/null 2>&1
+    docker push git.$DOMAIN/$user/$module #> /dev/null 2>&1
   done
 done
 

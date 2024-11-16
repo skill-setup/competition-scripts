@@ -4,21 +4,21 @@
 The idea behind this project is to create a competition environment as simple as possible. One command to start the competition.
 
 ## How to use the environment
-It is as simple as that
+It is as simple as that. Make sure that Docker is running before you execute the commands.
 
-```init.sh```
+```./init.sh```
 
 to stop the environment use
 
-```stop.sh```
+```./stop.sh```
 
 to start it again use
 
-```start.sh```
+```./start.sh```
 
 and to clean the whole system use
 
-```clean.sh```
+```./clean.sh```
 
 ## How to access the environment
 To access the git server use the subdomain git of your configured domain, e.g. git.skill17.localhost
@@ -35,3 +35,18 @@ Second and third lines are the root username and password.
 Fourth line is a whitespace separated list of the module name you want to use, e.g. module_a module_b module_c
 
 Starting from the fifth line are the credentials for the competitors and a random subdomain string, e.g. comp01 password subdomain
+
+## Naming of Repos
+This has to be the same name specified in the main config file.
+
+## Createing a Repo
+Open the right framework and click "Use this template"
+
+Check the first item - .... Content
+
+Add the secrets to the repo. G
+USER and PASS
+
+
+## Updating
+When updating the GIT repo, make sure that the containers are not running.
