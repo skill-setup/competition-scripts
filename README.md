@@ -42,5 +42,8 @@ Add these two secrets to the repo: USER and PASS
 
 These should be your username and passwort, e.g. comp01 and test123
 
+## Cloning of the Repo
+Use the http link to clone the repo, e.g. git clone http://git.local.skill17.com/comp01/module_a.git
+
 ## Updating
 When updating this repo, make sure that the containers are not running.
