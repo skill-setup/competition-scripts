@@ -10,9 +10,11 @@ services:
       traefik.http.routers.gitea.rule: Host(`git.${GITEA_HOSTNAME}`)
       # traefik.http.routers.gitea.entrypoints: websecure
       # traefik.http.routers.gitea.tls: true
-      traefik.http.routers.gitea.entrypoints: web
-      traefik.http.routers.gitea.tls: false
+      # traefik.http.routers.gitea.entrypoints: web
+      # traefik.http.routers.gitea.tls: false
       traefik.http.services.gitea.loadbalancer.server.port: 3000
+      traefik.http.routers.gitea.entrypoints: ${ENTRYPOINT}
+      traefik.http.routers.gitea.tls: ${ENABLE_HTTPS}
     volumes:
       # - ./data/gitea:/data/gitea
       - ./config/gitea:/data/gitea/conf
@@ -21,11 +23,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       # - GITEA__SERVER__ROOT_URL=https://git.${GITEA_HOSTNAME} 
-      - GITEA__SERVER__ROOT_URL=http://git.${GITEA_HOSTNAME} 
+      - GITEA__SERVER__ROOT_URL=${GITEA_PROTOCOL}://git.${GITEA_HOSTNAME} 
       - GITEA__SERVER__DOMAIN=git.${GITEA_HOSTNAME}
       - GITEA__SERVER__SSH_DOMAIN=git.${GITEA_HOSTNAME}
       - GITEA__DOCKER__REGISTRY_HOST=git.${GITEA_HOSTNAME}
     ports:
+      # - "5000:5000"
       - "3000:3000"
       - "2222:22"
     depends_on:

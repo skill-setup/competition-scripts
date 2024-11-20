@@ -13,9 +13,11 @@ export ENABLE_HTTPS=$ENABLE_HTTPS
 if [ "$ENABLE_HTTPS" = "true" ]; then
   export ENTRYPOINT=websecure
   export GITEA_PROTOCOL=https
+  export REGISTRY_PORT=443
 else
   export ENTRYPOINT=web
   export GITEA_PROTOCOL=http
+  export REGISTRY_PORT=5000
 fi
 
 # create various config and creation files
@@ -111,8 +113,8 @@ tail -n +6 config/main | while read -r user pass sub; do
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${user}_${module}.rule=Host(\`${sub}-${module}.$DOMAIN\`)"
-      - "traefik.http.routers.${user}_${module}.entrypoints=web"
-      - "traefik.http.routers.${user}_${module}.tls=false"
+      - "traefik.http.routers.${user}_${module}.entrypoints=${ENTRYPOINT}"
+      - "traefik.http.routers.${user}_${module}.tls=${ENABLE_HTTPS}"
       - "traefik.http.services.${user}_${module}.loadbalancer.server.port=80"
       - "com.centurylinklabs.watchtower.enable=true"
 EOF

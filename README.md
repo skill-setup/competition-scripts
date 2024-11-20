@@ -39,6 +39,7 @@ Open the right framework and click "Use this template"
 Check the first item - .... Content
 
 Add these two secrets to the repo: USER and PASS
+You can find these in the repo settings in Actions / Secrets
 
 These should be your username and passwort, e.g. comp01 and test123
 
