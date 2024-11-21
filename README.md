@@ -13,9 +13,9 @@ to start it again: ```./start.sh```
 and to clean the whole system: ```./clean.sh```
 
 ## How to access the environment
-To access the git server use the subdomain git of your configured domain, e.g. http://git.local.skill17.com
+To access the git server use the subdomain git of your configured domain, e.g. https://git.local.skill17.com
 
-To access the competitors work use the configured competitor subdomain and the module name, e.g. http://qwer-module_a.local.skill17.com
+To access the competitors work use the configured competitor subdomain and the module name, e.g. https://qwer-module_a.local.skill17.com
 
 ## How to configure the environment
 The configuration of your competition is done in the config/main configuration file.
@@ -44,7 +44,7 @@ You can find these in the repo settings in Actions / Secrets
 These should be your username and passwort, e.g. comp01 and test123
 
 ## Cloning of the Repo
-Use the http link to clone the repo, e.g. git clone http://git.local.skill17.com/comp01/module_a.git
+Use the http link to clone the repo, e.g. git clone https://git.local.skill17.com/comp01/module_a.git
 
 ## Updating
 When updating this repo, make sure that the containers are not running.
