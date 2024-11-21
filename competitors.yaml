@@ -8,8 +8,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.comp01_module_a.rule=Host(`qwer-module_a.local.skill17.com`)"
-      - "traefik.http.routers.comp01_module_a.entrypoints=web"
-      - "traefik.http.routers.comp01_module_a.tls=false"
+      - "traefik.http.routers.comp01_module_a.entrypoints=websecure"
+      - "traefik.http.routers.comp01_module_a.tls=true"
       - "traefik.http.services.comp01_module_a.loadbalancer.server.port=80"
       - "com.centurylinklabs.watchtower.enable=true"
   comp01_module_b:
@@ -21,8 +21,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.comp01_module_b.rule=Host(`qwer-module_b.local.skill17.com`)"
-      - "traefik.http.routers.comp01_module_b.entrypoints=web"
-      - "traefik.http.routers.comp01_module_b.tls=false"
+      - "traefik.http.routers.comp01_module_b.entrypoints=websecure"
+      - "traefik.http.routers.comp01_module_b.tls=true"
       - "traefik.http.services.comp01_module_b.loadbalancer.server.port=80"
       - "com.centurylinklabs.watchtower.enable=true"
   comp02_module_a:
@@ -34,8 +34,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.comp02_module_a.rule=Host(`asdf-module_a.local.skill17.com`)"
-      - "traefik.http.routers.comp02_module_a.entrypoints=web"
-      - "traefik.http.routers.comp02_module_a.tls=false"
+      - "traefik.http.routers.comp02_module_a.entrypoints=websecure"
+      - "traefik.http.routers.comp02_module_a.tls=true"
       - "traefik.http.services.comp02_module_a.loadbalancer.server.port=80"
       - "com.centurylinklabs.watchtower.enable=true"
   comp02_module_b:
@@ -47,8 +47,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.comp02_module_b.rule=Host(`asdf-module_b.local.skill17.com`)"
-      - "traefik.http.routers.comp02_module_b.entrypoints=web"
-      - "traefik.http.routers.comp02_module_b.tls=false"
+      - "traefik.http.routers.comp02_module_b.entrypoints=websecure"
+      - "traefik.http.routers.comp02_module_b.tls=true"
       - "traefik.http.services.comp02_module_b.loadbalancer.server.port=80"
       - "com.centurylinklabs.watchtower.enable=true"
 
