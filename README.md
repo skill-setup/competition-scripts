@@ -1,50 +1,106 @@
+# Competition Environment Setup
+
 ## Description
-The idea behind this project is to create a competition environment as simple as possible. One command to start the competition.
+This project provides a simple, reliable, and efficient environment for web development competitions. Using Docker along with Gitea, Traefik, Watchtower, and MySQL, it allows organizers to set up a consistent competition environment with minimal effort. Competitors can focus on their work without worrying about complex configurations.
 
-## How to use the environment
-Make sure that Docker is running before you execute the commands.
+The environment includes:
+1. **Docker**: Ensures consistent setups across systems.  
+2. **Traefik**: Routes requests to the right services.  
+3. **Watchtower**: Updates Docker containers automatically.  
+4. **Gitea**: A Git server for version control.  
+5. **MySQL**: Manages competition data.  
 
-to initialize the environment: ```./init.sh```
+## Setting up the Environment
 
-to stop the environment: ```./stop.sh```
+### Prerequisites
+Ensure Docker is installed and running on your system.
 
-to start it again: ```./start.sh```
+### Commands
+- **Initialize the environment:**  
+  `./init.sh`
 
-and to clean the whole system: ```./clean.sh```
+- **Stop the environment:**  
+  `./stop.sh`
 
-## How to access the environment
-To access the git server use the subdomain git of your configured domain, e.g. https://git.local.skill17.com
+- **Restart the environment:**  
+  `./start.sh`
 
-To access the competitors work use the configured competitor subdomain and the module name, e.g. https://qwer-module_a.local.skill17.com
+- **Clean the entire system:**  
+  `./clean.sh`
 
-## How to configure the environment
-The configuration of your competition is done in the config/main configuration file.
+### Configuration
+The environment is configured in the `config/main` file. Below are the key settings:
 
-First line is the domain which the competition is using, e.g. local.skill17.com
+1. **Domain Name:**  The main domain for the competition.  
+   **Example:** `local.skill17.com`
 
-Second line is the usage of https, e.g. false 
+1. **HTTPS (Traefik):**  Enable (`true`) or disable (`false`) HTTPS.
 
-Third and fourth lines are the root username and password.
+2. **Root Credentials:**  
+   - `Username` (Line 3)  
+   - `Password` (Line 4)
 
-Fifth line is a whitespace separated list of the module name you want to use, e.g. module_a module_b
+3. **Modules (Competition Tasks):**  List the module names separated by spaces.  
+   **Example:** `module_a module_b`
 
-Starting from the sixth line are the credentials for the competitors and a random subdomain string, e.g. comp01 test123 qwer
+4. **Competitor credentials and subdomains:**  From line 6 onward, define competitors' credentials and subdomains:  
+   `username password subdomain`  
+   **Example:** `comp01 test123 qwer`
 
-## Naming of Repos
-This has to be the same name specified in the main config file. If the modules are named e.g. module_a then the repo has to be named module_a as well.
+## Using the Environment
 
-## Createing a Repo
-Open the right framework and click "Use this template"
+- **Git Server (Gitea):**  
+  Access through the `git` subdomain of your configured domain.  
+  **Example:** `https://git.local.skill17.com`
 
-Check the first item - .... Content
+- **Competitors' Work:**  
+  Competitors' projects can be accessed using their subdomain and the module name.  
+  Format: `https://<subdomain>-<module_name>.<domain>`  
+  **Example:** `https://qwer-module_a.local.skill17.com`
 
-Add these two secrets to the repo: USER and PASS
-You can find these in the repo settings in Actions / Secrets
+- **PHPMyAdmin (Database Management):**  
+  Manage databases through the `pma` subdomain of your configured domain.  
+  **Example:** `https://pma.local.skill17.com`
 
-These should be your username and passwort, e.g. comp01 and test123
+## Updates (Environment Repository)
+   Before making changes to the environment repository, stop all Docker containers: `./stop.sh`
 
-## Cloning of the Repo
-Use the http link to clone the repo, e.g. git clone https://git.local.skill17.com/comp01/module_a.git
 
-## Updating
-When updating this repo, make sure that the containers are not running.
+## Competitor Workflow
+
+### Creating a Repository
+
+1. **Access Gitea:**  
+   Open your Git server (e.g., `https://git.local.skill17.com`) and log in using your credentials.
+
+2. **Choose a Framework Template:**  
+   Navigate to the base framework template for your module.  
+   **Tip:** Separate frontend and backend repositories for better organization.
+
+3. **Use the Template:**  
+   Click **"Use this template"** to create your repository. Name the repository to match the module name defined in the configuration file.  
+   **Example:** If your module is `module_a`, name the repository `module_a`.
+
+4. **Set Up Action Secrets:**  
+   Go to **Settings → Actions → Secrets** in your new repository and add:  
+   - **`USER`**: Your username (e.g., `comp01`)  
+   - **`PASS`**: Your password (e.g., `test123`)
+
+5. **Test the Setup:**  
+   Make a commit to verify that GitHub Actions are working correctly.
+
+### Cloning and using the Repository
+
+1. Use the repository URL to clone it:  
+   ```bash
+   git clone https://git.local.skill17.com/<username>/<module_name>.git
+   ```  
+   **Example:**  
+   ```bash
+   git clone https://git.local.skill17.com/comp01/module_a.git
+   ```
+
+2. Edit, commit, and develop your code. Frequent commits help keep your work organized, and using branches allows you to work on features or fixes without affecting the main deployment. If competition organizers allow it, you can use third-party packages to support frameworks and enhance your project. Always keep your project README up to date with essential information about the repository, such as setup instructions and dependencies.
+
+3. Every push automatically deploys to the competition URL (e.g., `https://<subdomain>-<module_name>.local.skill17.com`).  
+   Be mindful of the number of pushes to avoid unnecessary deployments. Check your changes at the competition URL after each push.
