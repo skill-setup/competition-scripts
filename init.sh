@@ -61,9 +61,6 @@ echo "Registration Token: $REGISTRATION_TOKEN"
 # Start the Gitea runner with the registration token
 REGISTRATION_TOKEN=$REGISTRATION_TOKEN docker compose -f gitea-runner.yaml up -d
 
-# Start MySQL
-docker compose -f mysql.yaml up -d 
-
 # Start watchtower
 USERNAME=$USERNAME PASSWORD=$PASSWORD DOMAIN=$DOMAIN docker compose -f watchtower.yaml up -d
 
@@ -98,6 +95,9 @@ cat <<EOF > competitors.yaml
 services:
 EOF
 
+cat <<EOF > config/mysql/competitors.sql
+EOF
+
 # initialize the basic modules
 tail -n +6 config/main | while read -r user pass sub; do
 
@@ -126,6 +126,13 @@ EOF
     echo "pushing inital container"
     docker tag nginx:latest git.$DOMAIN/$user/$module:latest
     docker push git.$DOMAIN/$user/$module #> /dev/null 2>&1
+
+  cat <<EOF >> config/mysql/competitors.sql
+  CREATE DATABASE IF NOT EXISTS \`$user_$module\`;
+  CREATE USER IF NOT EXISTS '$user'@'%' IDENTIFIED BY '$pass';
+  GRANT ALL PRIVILEGES ON \`$user_$module\`.* TO '$user'@'%';
+EOF
+
   done
 done
 
@@ -136,6 +143,10 @@ networks:
     external: true
 EOF
 
+# Start MySQL
+docker compose -f mysql.yaml up -d 
+
+# Start competitors work
 docker compose -f competitors.yaml up -d 
 
 echo "..all done!"
