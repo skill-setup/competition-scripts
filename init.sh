@@ -125,9 +125,9 @@ EOF
     docker push git.$DOMAIN/$user/$module #> /dev/null 2>&1
 
   cat <<EOF >> config/mysql/competitors.sql
-  CREATE DATABASE IF NOT EXISTS \`$user_$module\`;
+  CREATE DATABASE IF NOT EXISTS \`${user}_${module}\`;
   CREATE USER IF NOT EXISTS '$user'@'%' IDENTIFIED BY '$pass';
-  GRANT ALL PRIVILEGES ON \`$user_$module\`.* TO '$user'@'%';
+  GRANT ALL PRIVILEGES ON \`${user}_${module}\`.* TO '$user'@'%';
 EOF
 
   done
