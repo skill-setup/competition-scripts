@@ -9,6 +9,7 @@ MODULES=$(sed -n '5p' config/main)
 
 export GITEA_HOSTNAME=$DOMAIN
 export ENABLE_HTTPS=$ENABLE_HTTPS
+export MYSQL_ROOT_PASSWORD=$PASSWORD
 
 if [ "$ENABLE_HTTPS" = "true" ]; then
   export ENTRYPOINT=websecure
@@ -24,6 +25,9 @@ fi
 # Start Traefik and Gitea using Docker Compose
 REGISTRY_PORT=$REGISTRY_PORT GITEA_HOSTNAME=$DOMAIN GITEA_PROTOCOL=$GITEA_PROTOCOL ENTRYPOINT=$ENTRYPOINT ENABLE_HTTPS=$ENABLE_HTTPS docker compose -f traefik.yaml up -d --remove-orphans
 GITEA_HOSTNAME=$DOMAIN GITEA_PROTOCOL=$GITEA_PROTOCOL ENTRYPOINT=$ENTRYPOINT ENABLE_HTTPS=$ENABLE_HTTPS docker compose -f gitea.yaml up -d
+
+# Start MySQL with the admin password as the root password
+MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD docker compose -f mysql.yaml up -d
 
 # Wait for Gitea to start
 function wait_for_gitea() {
