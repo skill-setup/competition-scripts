@@ -5,28 +5,28 @@ services:
     networks:
       - default
     environment:
-       - MYSQL_ROOT_PASSWORD=ES2025mysql
+      - MYSQL_ROOT_PASSWORD=ES2025mysql
     volumes:
       - ./data/mysql-competition:/var/lib/mysql
       - "./config/mysql/competitors.sql:/docker-entrypoint-initdb.d/1.sql"
     labels:
-      traefik.enable: 'true'
+      traefik.enable: "true"
       traefik.http.routers.competitor-db.rule: HostRegexp(`{_:db\..*}`)
       traefik.http.services.competitor-db.loadbalancer.server.port: 3306
     ports:
-      - '3306:3306'
+      - "3306:3306"
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
     networks:
       - default
     depends_on:
       - competitor_db
     environment:
-      PMA_HOST: 'competitor_db'
+      PMA_HOST: "competitor_db"
       PMA_PORT: 3306
     labels:
-      traefik.enable: 'true'
+      traefik.enable: "true"
       traefik.http.routers.pma.rule: HostRegexp(`{_:pma\..*}`)
       traefik.http.services.pma.loadbalancer.server.port: 80
       traefik.http.routers.pma.tls: true
