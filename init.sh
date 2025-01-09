@@ -26,9 +26,6 @@ fi
 REGISTRY_PORT=$REGISTRY_PORT GITEA_HOSTNAME=$DOMAIN GITEA_PROTOCOL=$GITEA_PROTOCOL ENTRYPOINT=$ENTRYPOINT ENABLE_HTTPS=$ENABLE_HTTPS docker compose -f traefik.yaml up -d --remove-orphans
 GITEA_HOSTNAME=$DOMAIN GITEA_PROTOCOL=$GITEA_PROTOCOL ENTRYPOINT=$ENTRYPOINT ENABLE_HTTPS=$ENABLE_HTTPS docker compose -f gitea.yaml up -d
 
-# Start MySQL with the admin password as the root password
-MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD docker compose -f mysql.yaml up -d
-
 # Wait for Gitea to start
 function wait_for_gitea() {
   local retries=10
@@ -143,8 +140,8 @@ networks:
     external: true
 EOF
 
-# Start MySQL
-docker compose -f mysql.yaml up -d 
+# Start MySQL with the admin password as the root password
+MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD docker compose -f mysql.yaml up -d
 
 # Start competitors work
 docker compose -f competitors.yaml up -d 
