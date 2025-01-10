@@ -18,6 +18,7 @@ Ensure Docker is installed and running on your system.
 ### Commands
 - **Initialize the environment:**  
   `./init.sh`
+**Note: **If you have previously run `init.sh`, make sure to clean the environment first by running `./clean.sh` before initializing again. This ensures a fresh setup and avoids potential conflicts.
 
 - **Stop the environment:**  
   `./stop.sh`
@@ -74,8 +75,8 @@ The environment is configured in the `config/main` file. Below are the key setti
    Open your Git server (e.g., `https://git.local.skill17.com`) and log in using your credentials.
 
 2. **Choose a Framework Template:**  
-   Navigate to the base framework template for your module.  
-   **Tip:** Separate frontend and backend repositories for better organization.
+   Go to `organization -> frameworks` to pick a framework or the vanilla base for your repository. The templates include the necessary Docker and Gitea files with GitHub Actions ready to use. Check the [Frameworks Documentation](./frameworks.md) for details.  
+   **Tip:** Keep frontend and backend in separate repositories for better organization.
 
 3. **Use the Template:**  
    Click **"Use this template"** to create your repository. Name the repository to match the module name defined in the configuration file.  
