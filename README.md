@@ -18,7 +18,8 @@ Ensure Docker is installed and running on your system.
 ### Commands
 - **Initialize the environment:**  
   `./init.sh`
-**Note: **If you have previously run `init.sh`, make sure to clean the environment first by running `./clean.sh` before initializing again. This ensures a fresh setup and avoids potential conflicts.
+   
+   **Note:** If you have previously run `./init.sh`, make sure to clean the environment first by running `./clean.sh` before initializing again. This ensures a fresh setup and avoids potential conflicts.
 
 - **Stop the environment:**  
   `./stop.sh`
