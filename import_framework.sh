@@ -11,39 +11,44 @@ GITEA_TOKEN=$1
 GITEA_URL=$2
 GITHUB_URL=$3
 REPO_NAME=$4
+WORKFLOW_FILE='docker-ci.yml'
+ORG_NAME='frameworks'
 
-# Print variables for debugging
-# echo "GITEA_TOKEN: $GITEA_TOKEN"
-# echo "GITEA_URL: $GITEA_URL"
-# echo "GITHUB_URL: $GITHUB_URL"
-# echo "REPO_NAME: $REPO_NAME"
+# Clone the repository
+git clone "$GITHUB_URL" "$REPO_NAME"
+cd "$REPO_NAME" || exit
 
-# migrate repository - to debug remove the -s silent flag
-response=$(curl -s -k -X POST "$GITEA_URL/api/v1/repos/migrate" \
+# Replace the URL in the GitHub Action file
+sed -i '' "s|git.local.skill17.com|$GITEA_URL|g" ".github/workflows/$WORKFLOW_FILE"
+
+# Configure git
+git config user.name "Franz Bot"
+git config user.email "franz@skill17.com"
+
+# Commit the changes
+git add ".github/workflows/$WORKFLOW_FILE"
+git commit -m "Update Docker registry URL in GitHub Action"
+
+# Create the repository on Gitea under the "frameworks" organization
+create_repo_response=$(curl -s -X POST "$GITEA_URL/api/v1/orgs/$ORG_NAME/repos" \
 -H "Authorization: token $GITEA_TOKEN" \
 -H "Content-Type: application/json" \
 -d '{
-  "clone_addr": "'"$GITHUB_URL"'",
-  "repo_owner": "frameworks",
-  "repo_name": "'"$REPO_NAME"'",
-  "mirror": false,
-  "private": false,
-  "template": true
+  "name": "'"$REPO_NAME"'",
+  "private": false
 }')
 
-PATCH_REPO_ENDPOINT="$GITEA_URL/api/v1/repos/frameworks/$REPO_NAME"
-# echo $PATCH_REPO_ENDPOINT
+# Check if the repository was created successfully
+if echo "$create_repo_response" | grep -q '"id":'; then
+    echo "Repository $REPO_NAME created in the $ORG_NAME organization on Gitea."
+else
+    echo "Failed to create repository on Gitea: $create_repo_response"
+    exit 1
+fi
 
-response=$(curl -s -k -s -X PATCH \
-    -H "Content-Type: application/json" \
-    -H "Authorization: token $GITEA_TOKEN" \
-    -d '{
-          "private": false,
-          "template": true
-        }' \
-    "$PATCH_REPO_ENDPOINT")
-
-# echo $response
+# Add Gitea remote and push the changes
+git remote add gitea "$GITEA_URL/$ORG_NAME/$REPO_NAME.git"
+git push gitea main
 
 # Output response for debugging
-echo "..$REPO_NAME done!"
+echo "Repository $REPO_NAME pushed to the $ORG_NAME organization on Gitea with updated GitHub Action!"

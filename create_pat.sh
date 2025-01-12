@@ -17,7 +17,7 @@ response=$(curl -s -k -X POST -H "Content-Type: application/json" \
     -u "$USERNAME:$PASSWORD" \
     -d '{
           "name": "'"$TOKEN_NAME"'",
-          "scopes": ["read:admin","write:organization,write:repository"]
+          "scopes": ["read:admin","write:organization,write:repository,write:user"]
         }' \
     "$GITEA_URL/api/v1/users/$USERNAME/tokens")
 
