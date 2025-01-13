@@ -16,3 +16,8 @@ tail -n +5 config/main | while read -r user pass sub; do
   echo $user
   docker images | grep $user | awk '{print $3}' | xargs docker rmi -f
 done
+
+rm -rf laravel
+rm -rf vuejs
+rm -rf react
+rm -rf vanillajs
