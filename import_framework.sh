@@ -36,7 +36,8 @@ create_repo_response=$(curl -s -X POST "https://$GITEA_URL/api/v1/orgs/$ORG_NAME
 -H "Content-Type: application/json" \
 -d '{
   "name": "'"$REPO_NAME"'",
-  "private": false
+  "private": false,
+  "template": true
 }')
 
 # Check if the repository was created successfully
