@@ -19,7 +19,8 @@ git clone "$GITHUB_URL" "$REPO_NAME"
 cd "$REPO_NAME" || exit
 
 # Replace the URL in the GitHub Action file
-sed -i '' "s|git.local.skill17.com|$GITEA_URL|g" ".github/workflows/$WORKFLOW_FILE"
+# sed -i '' "s|git.local.skill17.com|$GITEA_URL|g" ".github/workflows/$WORKFLOW_FILE"
+sed -i "s|git.local.skill17.com|$GITEA_URL|g" ".github/workflows/$WORKFLOW_FILE"
 
 # Configure git
 git config user.name "Franz Bot"
@@ -30,7 +31,7 @@ git add ".github/workflows/$WORKFLOW_FILE"
 git commit -m "Update Docker registry URL in GitHub Action"
 
 # Create the repository on Gitea under the "frameworks" organization
-create_repo_response=$(curl -s -X POST "$GITEA_URL/api/v1/orgs/$ORG_NAME/repos" \
+create_repo_response=$(curl -s -X POST "https://$GITEA_URL/api/v1/orgs/$ORG_NAME/repos" \
 -H "Authorization: token $GITEA_TOKEN" \
 -H "Content-Type: application/json" \
 -d '{
@@ -47,7 +48,7 @@ else
 fi
 
 # Add Gitea remote and push the changes
-git remote add gitea "$GITEA_URL/$ORG_NAME/$REPO_NAME.git"
+git remote add gitea "https://$GITEA_URL/$ORG_NAME/$REPO_NAME.git"
 git push gitea main
 
 # Output response for debugging

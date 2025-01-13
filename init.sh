@@ -58,9 +58,6 @@ echo "Registration Token: $REGISTRATION_TOKEN"
 # Start the Gitea runner with the registration token
 REGISTRATION_TOKEN=$REGISTRATION_TOKEN docker compose -f gitea-runner.yaml up -d
 
-# Start watchtower
-USERNAME=$USERNAME PASSWORD=$PASSWORD DOMAIN=$DOMAIN docker compose -f watchtower.yaml up -d
-
 #### START GTI PREP
 GITEA_URL="$GITEA_PROTOCOL://git.$DOMAIN"
 GITEA_TOKEN=$(./create_pat.sh "$GITEA_PROTOCOL://git.$DOMAIN" "$USERNAME" "$PASSWORD")
@@ -79,10 +76,10 @@ response=$(curl -s -k -X POST "$GITEA_URL/api/v1/orgs" \
 
 ./create_team.sh $GITEA_TOKEN $GITEA_URL "frameworks" "competitors" false
 
-./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/laravel-base.git" "laravel"
-./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/vuejs.git" "vuejs"
-./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/react-vite-js-base.git" "react"
-./import_framework.sh $GITEA_TOKEN $GITEA_URL "https://github.com/skill-setup/vanilla-base.git" "vanillajs"
+./import_framework.sh $GITEA_TOKEN "git.$DOMAIN" "https://github.com/skill-setup/laravel-base.git" "laravel"
+./import_framework.sh $GITEA_TOKEN "git.$DOMAIN" "https://github.com/skill-setup/vuejs.git" "vuejs"
+./import_framework.sh $GITEA_TOKEN "git.$DOMAIN" "https://github.com/skill-setup/react-vite-js-base.git" "react"
+./import_framework.sh $GITEA_TOKEN "git.$DOMAIN" "https://github.com/skill-setup/vanilla-base.git" "vanillajs"
 
 docker pull nginx:latest > /dev/null 2>&1
 docker login -u $USERNAME -p $PASSWORD git.$DOMAIN > /dev/null 2>&1
@@ -142,6 +139,9 @@ EOF
 
 # Start MySQL with the admin password as the root password
 MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD docker compose -f mysql.yaml up -d
+
+# Start watchtower
+USERNAME=$USERNAME PASSWORD=$PASSWORD DOMAIN=$DOMAIN docker compose -f watchtower.yaml up -d
 
 # Start competitors work
 docker compose -f competitors.yaml up -d 
