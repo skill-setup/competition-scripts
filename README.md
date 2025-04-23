@@ -81,7 +81,7 @@ The environment is configured in the `config/main` file. Below are the key setti
 
 3. **Use the Template:**  
    Click **"Use this template"** to create your repository. Name the repository to match the module name defined in the configuration file.  
-   **Example:** If your module is `module_a`, name the repository `module_a`.
+   **Example:** If your module is `module-a`, name the repository `module-a`.
 
 4. **Set Up Action Secrets:**  
    Go to **Settings → Actions → Secrets** in your new repository and add:  
@@ -99,7 +99,7 @@ The environment is configured in the `config/main` file. Below are the key setti
    ```  
    **Example:**  
    ```bash
-   git clone https://git.local.skill17.com/comp01/module_a.git
+   git clone https://git.local.skill17.com/comp01/module-a.git
    ```
 
 2. Edit, commit, and develop your code. Frequent commits help keep your work organized, and using branches allows you to work on features or fixes without affecting the main deployment. If competition organizers allow it, you can use third-party packages to support frameworks and enhance your project. Always keep your project README up to date with essential information about the repository, such as setup instructions and dependencies.
