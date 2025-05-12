@@ -8,9 +8,11 @@ fi
 
 # Set variables from script arguments
 GITEA_TOKEN=$1
-GITEA_URL=$2
-GITHUB_URL=$3
-REPO_NAME=$4
+USERNAME=$2
+PASSWORD=$3
+GITEA_URL=$4
+GITHUB_URL=$5
+REPO_NAME=$6
 WORKFLOW_FILE='docker-ci.yml'
 ORG_NAME='frameworks'
 
@@ -49,7 +51,7 @@ else
 fi
 
 # Add Gitea remote and push the changes
-git remote add gitea "https://$GITEA_URL/$ORG_NAME/$REPO_NAME.git"
+git remote add gitea "https://$USERNAME:$PASSWORD@$GITEA_URL/$ORG_NAME/$REPO_NAME.git"
 git push gitea main
 
 # Output response for debugging
