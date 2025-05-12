@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Check if the correct number of arguments are provided
-if [ "$#" -ne 4 ]; then
-    echo "Usage: $0 <GITEA_TOKEN> <GITEA_URL> <GITHUB_URL> <REPO_NAME>"
+if [ "$#" -ne 6 ]; then
+    echo "Usage: $0 <GITEA_TOKEN> <USERNAME> <PASSWORD> <GITEA_URL> <GITHUB_URL> <REPO_NAME>"
     exit 1
 fi
 
