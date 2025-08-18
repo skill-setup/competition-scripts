@@ -83,12 +83,7 @@ The environment is configured in the `config/main` file. Below are the key setti
    Click **"Use this template"** to create your repository. Name the repository to match the module name defined in the configuration file.  
    **Example:** If your module is `module-a`, name the repository `module-a`.
 
-4. **Set Up Action Secrets:**  
-   Go to **Settings → Actions → Secrets** in your new repository and add:  
-   - **`USER`**: Your username (e.g., `comp01`)  
-   - **`PASS`**: Your password (e.g., `test123`)
-
-5. **Test the Setup:**  
+4. **Test the Setup:**  
    Make a commit to verify that GitHub Actions are working correctly.
 
 ### Cloning and using the Repository

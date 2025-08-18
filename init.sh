@@ -99,6 +99,23 @@ tail -n +6 config/main | while read -r user pass sub; do
   docker exec gitea su -c '/app/gitea/gitea admin user create --username '$user' --password '$pass' --email '$user@example.com' --must-change-password=false' git
   ./add_user_to_team.sh $GITEA_URL $GITEA_TOKEN "frameworks" "competitors" ${user}
 
+  # Create user-level secrets for this user
+  echo "Creating user-level secrets for $user..."
+
+  # Create USER secret
+  curl -s -k -X PUT \
+    -u "$user:$pass" \
+    -H "Content-Type: application/json" \
+    -d "{\"data\": \"$user\"}" \
+    "$GITEA_URL/api/v1/user/actions/secrets/USER"
+  
+  # Create PASS secret  
+  curl -s -k -X PUT \
+    -u "$user:$pass" \
+    -H "Content-Type: application/json" \
+    -d "{\"data\": \"$pass\"}" \
+    "$GITEA_URL/api/v1/user/actions/secrets/PASS"
+
   for module in $MODULES; do
     echo "Processing module: $module for $user"
 
