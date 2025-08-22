@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Read the username and password from the config/main file
-DOMAIN=$(sed -n '1p' config/main)
-ENABLE_HTTPS=$(sed -n '2p' config/main)
-USERNAME=$(sed -n '3p' config/main)
-PASSWORD=$(sed -n '4p' config/main)
-MODULES=$(sed -n '5p' config/main)
+DOMAIN=$(sed -n '1p' config/main | tr -d '\r\n')
+ENABLE_HTTPS=$(sed -n '2p' config/main | tr -d '\r\n')
+USERNAME=$(sed -n '3p' config/main | tr -d '\r\n')
+PASSWORD=$(sed -n '4p' config/main | tr -d '\r\n')
+MODULES=$(sed -n '5p' config/main | tr -d '\r\n')
 
 export GITEA_HOSTNAME=$DOMAIN
 export ENABLE_HTTPS=$ENABLE_HTTPS
@@ -99,6 +99,23 @@ tail -n +6 config/main | while read -r user pass sub; do
   docker exec gitea su -c '/app/gitea/gitea admin user create --username '$user' --password '$pass' --email '$user@example.com' --must-change-password=false' git
   ./add_user_to_team.sh $GITEA_URL $GITEA_TOKEN "frameworks" "competitors" ${user}
 
+  # Create user-level secrets for this user
+  echo "Creating user-level secrets for $user..."
+
+  # Create USER secret
+  curl -s -k -X PUT \
+    -u "$user:$pass" \
+    -H "Content-Type: application/json" \
+    -d "{\"data\": \"$user\"}" \
+    "$GITEA_URL/api/v1/user/actions/secrets/USER"
+  
+  # Create PASS secret  
+  curl -s -k -X PUT \
+    -u "$user:$pass" \
+    -H "Content-Type: application/json" \
+    -d "{\"data\": \"$pass\"}" \
+    "$GITEA_URL/api/v1/user/actions/secrets/PASS"
+
   for module in $MODULES; do
     echo "Processing module: $module for $user"
 
@@ -147,4 +164,20 @@ USERNAME=$USERNAME PASSWORD=$PASSWORD DOMAIN=$DOMAIN docker compose -f watchtowe
 # Start competitors work
 docker compose -f competitors.yaml up -d 
 
+# Write out environment variables to .env
+cat <<EOF > .env
+DOMAIN="$DOMAIN"
+ENABLE_HTTPS="$ENABLE_HTTPS"
+USERNAME="$USERNAME"
+PASSWORD="$PASSWORD"
+MODULES="$MODULES"
+GITEA_HOSTNAME="$GITEA_HOSTNAME"
+MYSQL_ROOT_PASSWORD="$MYSQL_ROOT_PASSWORD"
+ENTRYPOINT="$ENTRYPOINT"
+GITEA_PROTOCOL="$GITEA_PROTOCOL"
+REGISTRY_PORT="$REGISTRY_PORT"
+REGISTRATION_TOKEN="$REGISTRATION_TOKEN"
+EOF
+
 echo "..all done!"
+
