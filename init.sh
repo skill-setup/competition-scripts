@@ -161,6 +161,12 @@ MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD docker compose -f mysql.yaml up -d
 # Start watchtower
 USERNAME=$USERNAME PASSWORD=$PASSWORD DOMAIN=$DOMAIN docker compose -f watchtower.yaml up -d
 
+# Start Verdaccio for package caching
+docker compose -f verdaccio.yaml up -d
+
+# Configure Verdaccio storage permissions to allow package uploads
+chmod 777 -R ./data/verdaccio
+
 # Start competitors work
 docker compose -f competitors.yaml up -d 
 
