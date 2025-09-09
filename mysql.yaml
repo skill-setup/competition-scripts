@@ -25,6 +25,7 @@ services:
     environment:
       PMA_HOST: "competitor_db"
       PMA_PORT: 3306
+    restart: always
     labels:
       traefik.enable: "true"
       traefik.http.routers.pma.rule: HostRegexp(`{_:pma\..*}`)
