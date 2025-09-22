@@ -16,6 +16,11 @@ services:
       # - '--entrypoints.websecure.address=:443'
       - '--entrypoints.websecure.address=:${REGISTRY_PORT}'
 #      - '--providers.docker.defaultRule=HostRegexp(`{_:{{ index .Labels \"com.docker.compose.service\" }}\\..*}`)'
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--entrypoints.websecure.forwardedHeaders.trustedIPs=0.0.0.0/0"
+      - "--entrypoints.websecure.proxyProtocol.trustedIPs=0.0.0.0/0"
       - '--providers.docker.defaultRule=HostRegexp(`{host:.+}`)'
       - '--serversTransport.insecureSkipVerify=true'
     ports:
