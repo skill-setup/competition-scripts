@@ -16,17 +16,19 @@ REPO_NAME=$6
 WORKFLOW_FILE='docker-ci.yml'
 ORG_NAME='frameworks'
 
+mkdir -p /tmp/skill17
+
 # Clone the repository
-git clone "$GITHUB_URL" "$REPO_NAME"
-cd "$REPO_NAME" || exit
+git clone "$GITHUB_URL" /tmp/skill17/"$REPO_NAME"
+cd /tmp/skill17/"$REPO_NAME" || exit
 
 # Replace the URL in the GitHub Action file
 # sed -i '' "s|git.local.skill17.com|$GITEA_URL|g" ".github/workflows/$WORKFLOW_FILE"
 sed -i "s|git.local.skill17.com|$GITEA_URL|g" ".github/workflows/$WORKFLOW_FILE"
 
 # Configure git
-git config user.name "Franz Bot"
-git config user.email "franz@skill17.com"
+git config user.name "skill17"
+git config user.email "bot@skill17.com"
 
 # Commit the changes
 git add ".github/workflows/$WORKFLOW_FILE"

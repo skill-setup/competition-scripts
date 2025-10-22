@@ -1,6 +1,8 @@
 #!/bin/bash
 DOMAIN=$(sed -n '1p' config/main)
 
+
+echo Cleaning docker compose containers
 docker compose -f watchtower.yaml down
 docker compose -f competitors.yaml down
 docker compose -f mysql.yaml down
@@ -13,11 +15,10 @@ rm -rf ./data
 
 # go through all competitors and remove all images
 tail -n +5 config/main | while read -r user pass sub; do
-  echo $user
-  docker images | grep $user | awk '{print $3}' | xargs docker rmi -f
+  echo Cleaning $user images
+  docker images | grep $user | awk '{print $3}' | xargs --no-run-if-empty docker rmi -f
 done
+echo Cleaning framework folders
+rm -rf /tmp/skill17
 
-rm -rf laravel
-rm -rf vuejs
-rm -rf react
-rm -rf vanillajs
+echo 'Everything has been cleaned successfully'

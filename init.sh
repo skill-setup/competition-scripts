@@ -7,6 +7,11 @@ USERNAME=$(sed -n '3p' config/main | tr -d '\r\n')
 PASSWORD=$(sed -n '4p' config/main | tr -d '\r\n')
 MODULES=$(sed -n '5p' config/main | tr -d '\r\n')
 
+mkdir -p "/etc/docker/certs.d/git.$DOMAIN:443/"
+cp ./config/traefik/certs/ca-cert.crt /etc/docker/certs.d/git.$DOMAIN:443/
+
+systemctl restart docker
+
 export GITEA_HOSTNAME=$DOMAIN
 export ENABLE_HTTPS=$ENABLE_HTTPS
 export MYSQL_ROOT_PASSWORD=$PASSWORD
@@ -55,6 +60,13 @@ export REGISTRATION_TOKEN=$REGISTRATION_TOKEN
 
 echo "Registration Token: $REGISTRATION_TOKEN"
 
+# Generating the runner yaml configuration
+ echo "Generating the runners docker configuration"
+
+comps_nb=$(tail -n +6 config/main | wc -l)
+nb_runners=$((comps_nb*2))
+ ./generate-runners.sh $nb_runners
+
 # Start the Gitea runner with the registration token
 REGISTRATION_TOKEN=$REGISTRATION_TOKEN docker compose -f gitea-runner.yaml up -d
 
@@ -82,6 +94,14 @@ response=$(curl -s -k -X POST "$GITEA_URL/api/v1/orgs" \
 ./import_framework.sh $GITEA_TOKEN $USERNAME $PASSWORD "git.$DOMAIN" "https://github.com/skill-setup/vanilla-base.git" "vanillajs"
 ./import_framework.sh $GITEA_TOKEN $USERNAME $PASSWORD "git.$DOMAIN" "https://github.com/skill-setup/next-js-base.git" "nextjs"
 
+./import_framework.sh $GITEA_TOKEN $USERNAME $PASSWORD "git.$DOMAIN" "https://github.com/Ayce45/wsfr2025-nuxt-base" "nuxt-base"
+./import_framework.sh $GITEA_TOKEN $USERNAME $PASSWORD "git.$DOMAIN" "https://github.com/Ayce45/wsfr2025-express-base" "express-base"
+./import_framework.sh $GITEA_TOKEN $USERNAME $PASSWORD "git.$DOMAIN" "https://github.com/Ayce45/wsfr2025-solidjs-dev" "solidjs-base"
+./import_framework.sh $GITEA_TOKEN $USERNAME $PASSWORD "git.$DOMAIN" "https://github.com/Ayce45/wsfr2025-elysia-base" "elysia-base"
+./import_framework.sh $GITEA_TOKEN $USERNAME $PASSWORD "git.$DOMAIN" "https://github.com/Ayce45/wsfr2025-solidstart-base" "solidstart-base"
+./import_framework.sh $GITEA_TOKEN $USERNAME $PASSWORD "git.$DOMAIN" "https://github.com/Ayce45/wsfr2025-next-base" "next-base"
+./import_framework.sh $GITEA_TOKEN $USERNAME $PASSWORD "git.$DOMAIN" "https://github.com/Ayce45/wsfr2025-elysia-prisma-base" "elysia-prisma-base"
+
 docker pull nginx:latest > /dev/null 2>&1
 docker login -u $USERNAME -p $PASSWORD git.$DOMAIN > /dev/null 2>&1
 
@@ -94,6 +114,8 @@ cat <<EOF > config/mysql/competitors.sql
 EOF
 
 # initialize the basic modules
+user_num=1
+
 tail -n +6 config/main | while read -r user pass sub; do
 
   docker exec gitea su -c '/app/gitea/gitea admin user create --username '$user' --password '$pass' --email '$user@example.com' --must-change-password=false' git
@@ -101,7 +123,6 @@ tail -n +6 config/main | while read -r user pass sub; do
 
   # Create user-level secrets for this user
   echo "Creating user-level secrets for $user..."
-
   # Create USER secret
   curl -s -k -X PUT \
     -u "$user:$pass" \
@@ -123,7 +144,7 @@ tail -n +6 config/main | while read -r user pass sub; do
   ${user}_${module}:
     image: git.${DOMAIN}/${user}/${module}:latest
     container_name: ${user}_${module}
-    restart: always
+    restart: on-failure:2
     networks:
       - gitea
     labels:
@@ -132,6 +153,8 @@ tail -n +6 config/main | while read -r user pass sub; do
       - "traefik.http.routers.${user}_${module}.entrypoints=${ENTRYPOINT}"
       - "traefik.http.routers.${user}_${module}.tls=${ENABLE_HTTPS}"
       - "traefik.http.services.${user}_${module}.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.${user}_${module}-ipallowlist.ipallowlist.sourcerange=127.0.0.1/32, 10.48.17.1${user_num}/32, 10.48.17.64/26, 10.48.17.128/25"
+      - "traefik.http.routers.${user}_${module}.middlewares=${user}_${module}-ipallowlist"
       - "com.centurylinklabs.watchtower.enable=true"
 EOF
     
@@ -146,7 +169,25 @@ EOF
 EOF
 
   done
+  user_num=$((user_num+1))
 done
+
+  # Create user-level secrets for root
+  echo "Creating user-level secrets for root..."
+  # Create USER secret
+  curl -s -k -X PUT \
+    -u "$USERNAME:$PASSWORD" \
+    -H "Content-Type: application/json" \
+    -d "{\"data\": \"$USERNAME\"}" \
+    "$GITEA_URL/api/v1/user/actions/secrets/USER"
+  
+  # Create PASS secret  
+  curl -s -k -X PUT \
+    -u "$USERNAME:$PASSWORD" \
+    -H "Content-Type: application/json" \
+    -d "{\"data\": \"$PASSWORD\"}" \
+    "$GITEA_URL/api/v1/user/actions/secrets/PASS"
+
 
 cat <<EOF >> competitors.yaml
 
@@ -170,6 +211,8 @@ chmod 777 -R ./data/verdaccio
 # Start competitors work
 docker compose -f competitors.yaml up -d 
 
+# Start system containers
+docker compose -f system.yaml up -d
 # Write out environment variables to .env
 cat <<EOF > .env
 DOMAIN="$DOMAIN"
@@ -183,6 +226,7 @@ ENTRYPOINT="$ENTRYPOINT"
 GITEA_PROTOCOL="$GITEA_PROTOCOL"
 REGISTRY_PORT="$REGISTRY_PORT"
 REGISTRATION_TOKEN="$REGISTRATION_TOKEN"
+GITEA_TOKEN="$GITEA_TOKEN"
 EOF
 
 echo "..all done!"
