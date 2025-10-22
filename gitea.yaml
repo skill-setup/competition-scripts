@@ -21,6 +21,7 @@ services:
       # - ./scripts:/scripts
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - ./config/traefik/certs/ca-cert.crt:/usr/local/share/ca-certificates/ca-cert.crt:ro
     environment:
       # - GITEA__SERVER__ROOT_URL=https://git.${GITEA_HOSTNAME} 
       - GITEA__SERVER__ROOT_URL=${GITEA_PROTOCOL}://git.${GITEA_HOSTNAME} 
